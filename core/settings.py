@@ -1,20 +1,33 @@
-from pathlib import Path
+from decouple import config
+from pathlib import Path, os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "secret-key"
+SECRET_KEY = config("SECRET_KEY")
 
-DEBUG = True
+DEBUG = config("DEBUG", cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "*"]
+
+LOCAL_APPS = [
+]
+
+THIRD_PARTY_APPS = [
+]
+
+THIRD_PARTY_ADMIN_APPS = [
+]
 
 INSTALLED_APPS = [
+    *THIRD_PARTY_ADMIN_APPS,
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    *THIRD_PARTY_APPS,
+    *LOCAL_APPS,
 ]
 
 MIDDLEWARE = [
@@ -51,8 +64,12 @@ ASGI_APPLICATION = "core.asgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST": config("DB_HOST"),
+        "PORT": config("DB_POPRT"),
     }
 }
 
@@ -80,5 +97,13 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+
+STATIC_ROOT = os.path.join(BASE_DIR ,'/static')
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, '/static_src')]
+
+MEDIA_URL = 'media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
