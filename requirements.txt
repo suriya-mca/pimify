@@ -1,5 +1,7 @@
 asgiref==3.8.1
 Django==5.1.2
+fastnanoid==0.4.1
+pillow==11.0.0
 psycopg==3.2.3
 python-decouple==3.8
 sqlparse==0.5.1
