@@ -16,7 +16,7 @@ class Currency(models.Model):
     symbol = models.CharField(max_length=1)
 
     def __str__(self):
-        return self.code
+        return self.id
 
 
 class Product(models.Model):
@@ -33,7 +33,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.id
         
     class Meta:
         indexes = [
@@ -49,7 +49,7 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.name
+        return self.id
         
     class Meta:
         indexes = [
@@ -66,7 +66,7 @@ class Supplier(models.Model):
     address = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.id
         
     class Meta:
         indexes = [
@@ -86,7 +86,7 @@ class ProductSupplier(models.Model):
         unique_together = ('product', 'supplier')
 
     def __str__(self):
-        return f"{self.product.name} - {self.supplier.name}"
+        return self.id
 
 
 class ProductImage(models.Model):
@@ -96,7 +96,7 @@ class ProductImage(models.Model):
     alt_text = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"Image for {self.product.name}"
+        return self.id
 
 
 class Warehouse(models.Model):
@@ -105,7 +105,7 @@ class Warehouse(models.Model):
     address = models.TextField()
 
     def __str__(self):
-        return self.name
+        return self.id
         
     class Meta:
         indexes = [
@@ -121,7 +121,7 @@ class Stock(models.Model):
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Stock for {self.product.name}: {self.quantity}"
+        return self.id
         
     class Meta:
         indexes = [

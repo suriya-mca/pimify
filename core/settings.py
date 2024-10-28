@@ -19,6 +19,7 @@ THIRD_PARTY_APPS = [
 
 THIRD_PARTY_ADMIN_APPS = [
     'unfold',
+    'unfold.contrib.filters',
     'unfold.contrib.import_export',
 ]
 
