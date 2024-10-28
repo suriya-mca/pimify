@@ -3,6 +3,30 @@ Pimify is an open-source Product Information Management (PIM) platform
 
 ![image](https://github.com/user-attachments/assets/8dc2a7b5-3c45-4bdf-a0fa-b9dd625ea2ad)
 
+## Quick Installation with Script
+
+You can set up the project quickly by running the installation script. Make sure you have the necessary permissions.
+
+### Prerequisites
+
+Ensure the following is installed on your system:
+
+- **Python** (version 3.7 or higher)
+- **PostgreSQL** (make sure the PostgreSQL server is running and accessible)
+
+### On Mac/Linux
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+### On Windows
+
+```bash
+./install.bat
+```
+
 ## Contributing
 
 Contributions make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to contribute.
