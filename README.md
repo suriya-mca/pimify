@@ -1,9 +1,11 @@
 # pimify
 Pimify is an open-source Product Information Management (PIM) platform
 
+![image](https://github.com/user-attachments/assets/8dc2a7b5-3c45-4bdf-a0fa-b9dd625ea2ad)
+
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to contribute.
+Contributions make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to contribute.
 
 1. Fork this repository to your GitHub account
 2. Clone the forked repository to your local machine
