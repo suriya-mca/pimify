@@ -1,5 +1,6 @@
 asgiref==3.8.1
 Django==5.1.2
+django-unfold==0.40.0
 fastnanoid==0.4.1
 pillow==11.0.0
 psycopg==3.2.3
