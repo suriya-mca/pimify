@@ -14,10 +14,12 @@ LOCAL_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'import_export',
 ]
 
 THIRD_PARTY_ADMIN_APPS = [
     'unfold',
+    'unfold.contrib.import_export',
 ]
 
 INSTALLED_APPS = [
