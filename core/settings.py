@@ -1,5 +1,7 @@
 from decouple import config
 from pathlib import Path, os
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -116,4 +118,109 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 UNFOLD = {
     "SITE_TITLE": "Pimify",
     "SITE_HEADER": "Pimify",
+    "SIDEBAR": {
+        "show_search": True,  
+        "show_all_applications": False, 
+        "navigation": [
+            {
+                "title": _("Product Management"),
+                "separator": True, 
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "home", 
+                        "link": reverse_lazy("admin:index"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Currencies"),
+                        "icon": "money", 
+                        "link": reverse_lazy("admin:api_currency_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Categories"),
+                        "icon": "category",  
+                        "link": reverse_lazy("admin:api_category_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Products"),
+                        "icon": "box",  
+                        "link": reverse_lazy("admin:api_product_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                                        {
+                        "title": _("Product Images"),
+                        "icon": "image",  
+                        "link": reverse_lazy("admin:api_productimage_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                ],
+            },
+            {
+                "title": _("Stock Management"),
+                "separator": True, 
+                "collapsible": False, 
+                "items": [
+                    {
+                        "title": _("Suppliers"),
+                        "icon": "corporate_fare", 
+                        "link": reverse_lazy("admin:api_supplier_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Product Suppliers"),
+                        "icon": "compare_arrows",  
+                        "link": reverse_lazy("admin:api_productsupplier_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Warehouses"),
+                        "icon": "warehouse",  
+                        "link": reverse_lazy("admin:api_warehouse_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Stocks"),
+                        "icon": "inventory", 
+                        "link": reverse_lazy("admin:api_stock_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                ],
+            },
+            {
+                "title": _("Authentication and Authorization"),
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": _("Users"),
+                        "icon": "person", 
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Groups"),
+                        "icon": "group",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+            {
+                "separator": True,
+                "collapsible": False,
+                "items": [
+                    {
+                        "title": _("Organization Details"),
+                        "icon": "source_environment", 
+                        "link": reverse_lazy("admin:api_organization_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],
+            },
+        ],
+    },
 }

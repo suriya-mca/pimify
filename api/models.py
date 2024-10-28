@@ -15,6 +15,10 @@ class Currency(models.Model):
     code = models.CharField(max_length=3, unique=True)
     symbol = models.CharField(max_length=1)
 
+    class Meta:
+        db_table = 'Currencies'
+        verbose_name_plural = 'Currencies'
+
     def __str__(self):
         return self.id
 
@@ -32,15 +36,17 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.id
-        
     class Meta:
+        db_table = 'Products'
+        verbose_name_plural = 'Products'
         indexes = [
             models.Index(fields=['id']),
             models.Index(fields=['name']),
             models.Index(fields=['sku']),
-        ]                   
+        ] 
+
+    def __str__(self):
+        return self.id                  
 
 
 class Category(models.Model):
@@ -48,14 +54,16 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
 
-    def __str__(self):
-        return self.id
-        
     class Meta:
+        db_table = 'Categories'
+        verbose_name_plural = 'Categories'
         indexes = [
             models.Index(fields=['id']),
             models.Index(fields=['name']),      
-        ]                 
+        ]   
+
+    def __str__(self):
+        return self.id              
 
 
 class Supplier(models.Model):
@@ -65,14 +73,17 @@ class Supplier(models.Model):
     phone = models.CharField(max_length=20)
     address = models.TextField()
 
-    def __str__(self):
-        return self.id
-        
     class Meta:
+        db_table = 'Suppliers'
+        verbose_name_plural = 'Suppliers'
+        
         indexes = [
             models.Index(fields=['id']),
             models.Index(fields=['name']),          	
-        ]               
+        ] 
+
+    def __str__(self):
+        return self.id              
 
 
 class ProductSupplier(models.Model):
@@ -83,6 +94,8 @@ class ProductSupplier(models.Model):
     lead_time = models.IntegerField(help_text="Lead time in days")
 
     class Meta:
+        db_table = 'Product Suppliers'
+        verbose_name_plural = 'Product Suppliers'
         unique_together = ('product', 'supplier')
 
     def __str__(self):
@@ -95,6 +108,10 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='product_images/')
     alt_text = models.CharField(max_length=255, blank=True, null=True)
 
+    class Meta:
+        db_table = 'Product Images'
+        verbose_name_plural = 'Product Images'
+
     def __str__(self):
         return self.id
 
@@ -104,14 +121,16 @@ class Warehouse(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
 
-    def __str__(self):
-        return self.id
-        
     class Meta:
+        db_table = 'Warehouses'
+        verbose_name_plural = 'Warehouses'
         indexes = [
             models.Index(fields=['id']),
             models.Index(fields=['name']),       
         ]
+
+    def __str__(self):
+        return self.id
 
 
 class Stock(models.Model):
@@ -120,10 +139,31 @@ class Stock(models.Model):
     quantity = models.IntegerField(default=0)
     warehouse = models.ForeignKey(Warehouse, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.id
-        
     class Meta:
+        db_table = 'Stocks'
+        verbose_name_plural = 'Stocks'
         indexes = [
             models.Index(fields=['id'])
         ]
+
+    def __str__(self):
+        return self.id
+
+
+class Organization(models.Model):
+    id = NanoIDField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True, null=True)
+    founded_date = models.DateField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'Organization Details'
+        verbose_name_plural = 'Organization Details'
+        
+    def __str__(self):
+        return self.id

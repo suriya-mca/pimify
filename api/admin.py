@@ -8,7 +8,7 @@ from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 from unfold.contrib.filters.admin import FieldTextFilter, ChoicesDropdownFilter, RangeDateFilter
 
-from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock
+from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization
 
 
 admin.site.unregister(User)
@@ -122,3 +122,4 @@ admin.site.register(ProductSupplier, ProductSupplierAdmin)
 admin.site.register(ProductImage, ProductImageAdmin)
 admin.site.register(Warehouse, WarehouseAdmin)
 admin.site.register(Stock, StockAdmin)
+admin.site.register(Organization, ModelAdmin)
