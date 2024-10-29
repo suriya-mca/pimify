@@ -14,6 +14,18 @@ Ensure the following is installed on your system:
 - **Python** (version 3.7 or higher)
 - **PostgreSQL** (make sure the PostgreSQL server is running and accessible)
 
+### Clone the project
+
+```bash
+  git clone https://github.com/suriya-mca/pimify.git
+```
+
+### Go to the project directory
+
+```bash
+  cd pimify
+```
+
 ### On Mac/Linux
 
 ```bash
