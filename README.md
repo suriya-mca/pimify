@@ -26,17 +26,29 @@ Ensure the following is installed on your system:
   cd pimify
 ```
 
+### Create .env file
+
+```bash
+  SECRET_KEY = secret_key
+  DEBUG = True
+  NAME = db_name
+  USER = postgres
+  PASSWORD = password
+  HOST = localhost
+  PORT = 5432
+```
+
 ### On Mac/Linux
 
 ```bash
-chmod +x install.sh
-./install.sh
+  chmod +x install.sh
+  ./install.sh
 ```
 
 ### On Windows
 
 ```bash
-./install.bat
+  ./install.bat
 ```
 
 ## Contributing
