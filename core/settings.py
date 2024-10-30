@@ -120,6 +120,29 @@ UNFOLD = {
     "SITE_TITLE": "Pimify",
     "SITE_HEADER": "Pimify",
     "SITE_SYMBOL": "speed",
+    "COLORS": {
+        "font": {
+            "subtle-light": "107 114 128",
+            "subtle-dark": "156 163 175",
+            "default-light": "75 85 99",
+            "default-dark": "209 213 219",
+            "important-light": "17 24 39",
+            "important-dark": "243 244 246",
+        },
+        "primary": {
+            "50": "255 250 240",
+            "100": "255 238 204",
+            "200": "254 215 170",
+            "300": "253 186 114",
+            "400": "251 146 60",
+            "500": "245 121 0",
+            "600": "220 98 10",
+            "700": "184 79 18",
+            "800": "140 62 25",
+            "900": "104 47 24",
+            "950": "66 28 20"
+        },
+    },
     "SIDEBAR": {
         "show_search": True,  
         "show_all_applications": False, 
