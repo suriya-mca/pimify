@@ -103,7 +103,7 @@ class ProductSupplier(models.Model):
 
 
 class ProductImage(models.Model):
-    id = NanoIDField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='product_images/')
     alt_text = models.CharField(max_length=255, blank=True, null=True)
@@ -151,7 +151,7 @@ class Stock(models.Model):
 
 
 class Organization(models.Model):
-    id = NanoIDField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
     founded_date = models.DateField(blank=True, null=True)

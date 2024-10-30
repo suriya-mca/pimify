@@ -40,7 +40,7 @@ class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
 
 class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     list_filter_submit = True
-    list_display = ('name', 'sku', 'price', 'currency', 'stock_quantity', 'is_active', 'created_at', 'updated_at')
+    list_display = ('sku', 'name', 'price', 'currency', 'stock_quantity', 'is_active', 'created_at', 'updated_at')
     list_filter = (('name', ChoicesDropdownFilter), ('sku', FieldTextFilter), 'is_active', ('categories', ChoicesDropdownFilter), ('created_at', RangeDateFilter))
     search_fields = ['name', 'sku', 'categories']
 
