@@ -2,6 +2,7 @@ from decouple import config
 from pathlib import Path, os
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.templatetags.static import static
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -118,13 +119,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 UNFOLD = {
     "SITE_TITLE": "Pimify",
     "SITE_HEADER": "Pimify",
+    "SITE_SYMBOL": "speed",
     "SIDEBAR": {
         "show_search": True,  
         "show_all_applications": False, 
         "navigation": [
             {
                 "title": _("Product Management"),
-                "separator": True, 
+                "separator": False, 
                 "collapsible": False,
                 "items": [
                     {
@@ -161,7 +163,7 @@ UNFOLD = {
             },
             {
                 "title": _("Stock Management"),
-                "separator": True, 
+                "separator": False, 
                 "collapsible": False, 
                 "items": [
                     {
