@@ -13,6 +13,7 @@ from .models import Currency, Product, Category, Supplier, ProductSupplier, Prod
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
+admin.site.site_url = None
 
 
 @admin.register(User)
