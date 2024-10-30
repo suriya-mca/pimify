@@ -1,7 +1,7 @@
 # pimify
 Pimify is an open-source Product Information Management (PIM) platform
 
-![image](https://github.com/user-attachments/assets/8dc2a7b5-3c45-4bdf-a0fa-b9dd625ea2ad)
+![image](https://github.com/user-attachments/assets/893bb887-22f6-41c6-93b2-fc7a9578a401)
 
 ## Quick Installation with Script
 
