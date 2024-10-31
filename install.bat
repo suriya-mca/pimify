@@ -7,20 +7,13 @@ if errorlevel 1 (
     exit /b
 )
 
-:: Check if PostgreSQL is installed
-where psql >nul
-if errorlevel 1 (
-    echo PostgreSQL is not installed. Please install it before proceeding.
-    exit /b
-)
-
 :: Create virtual environment
 echo Creating virtual environment...
-python -m venv venv
+python -m venv env
 
 :: Activate virtual environment
 echo Activating virtual environment...
-call venv\Scripts\activate
+call env\Scripts\activate
 
 :: Install requirements
 echo Installing dependencies...
@@ -28,6 +21,8 @@ pip install -r requirements.txt
 
 :: Run migrations
 echo Running migrations...
+python manage.py migrate
+python manage.py makemigrations api
 python manage.py migrate
 
 :: Create superuser

@@ -11,19 +11,13 @@ if ! command -v pip3 &>/dev/null; then
     exit 1
 fi
 
-# Check for PostgreSQL installation
-if ! command -v psql &>/dev/null; then
-    echo "PostgreSQL is not installed. Please install it before proceeding."
-    exit 1
-fi
-
 # Create a virtual environment
 echo "Creating virtual environment..."
-python3 -m venv venv
+python3 -m venv env
 
 # Activate virtual environment
 echo "Activating virtual environment..."
-source venv/bin/activate
+source env/bin/activate
 
 # Install requirements
 echo "Installing dependencies..."
@@ -31,6 +25,8 @@ pip install -r requirements.txt
 
 # Run migrations
 echo "Running migrations..."
+python manage.py migrate
+python manage.py makemigrations
 python manage.py migrate
 
 # Create a superuser
