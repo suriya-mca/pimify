@@ -31,11 +31,11 @@ Ensure the following is installed on your system:
 ```bash
   SECRET_KEY = secret_key
   DEBUG = True
-  NAME = db_name
-  USER = postgres
-  PASSWORD = password
-  HOST = localhost
-  PORT = 5432
+  DB_NAME = db_name
+  DB_USER = postgres
+  DB_PASSWORD = password
+  DB_HOST = localhost
+  DB_PORT = 5432
 ```
 
 ### On Mac/Linux
