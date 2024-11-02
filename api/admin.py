@@ -7,6 +7,8 @@ from unfold.forms import UserChangeForm, UserCreationForm, AdminPasswordChangeFo
 from import_export.admin import ImportExportModelAdmin
 from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 from unfold.contrib.filters.admin import FieldTextFilter, ChoicesDropdownFilter, RangeDateFilter
+from django.db import models
+from unfold.contrib.forms.widgets import WysiwygWidget
 
 from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization
 
@@ -28,7 +30,9 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     pass
 
 
+@admin.register(Currency)
 class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_display = ('code','symbol')
     list_filter = ('code',)
     search_fields = ['code']
@@ -38,7 +42,9 @@ class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = SelectableFieldsExportForm
 
 
+@admin.register(Product)
 class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('sku', 'name', 'price', 'currency', 'stock_quantity', 'is_active', 'created_at', 'updated_at')
     list_filter = (('name', ChoicesDropdownFilter), ('sku', FieldTextFilter), 'is_active', ('categories', ChoicesDropdownFilter), ('created_at', RangeDateFilter))
@@ -48,8 +54,16 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": WysiwygWidget,
+        }
+    }
 
+
+@admin.register(Category)
 class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('name', 'slug')
     list_filter = (('name', ChoicesDropdownFilter), ('slug',ChoicesDropdownFilter))
@@ -60,7 +74,9 @@ class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = SelectableFieldsExportForm
 
 
+@admin.register(Supplier)
 class SupplierAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('name','email', 'phone')
     list_filter = (('name', ChoicesDropdownFilter),)
@@ -71,7 +87,9 @@ class SupplierAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = SelectableFieldsExportForm
 
 
+@admin.register(ProductSupplier)
 class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('product','supplier', 'cost_price', 'lead_time')
     list_filter = (('product', ChoicesDropdownFilter), ('supplier', ChoicesDropdownFilter))
@@ -82,7 +100,9 @@ class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = SelectableFieldsExportForm
 
 
+@admin.register(ProductImage)
 class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('product','image')
     list_filter = (('product', ChoicesDropdownFilter),)
@@ -93,7 +113,9 @@ class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = SelectableFieldsExportForm
 
 
+@admin.register(Warehouse)
 class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('name',)
     list_filter = (('name', ChoicesDropdownFilter),)
@@ -104,7 +126,9 @@ class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = SelectableFieldsExportForm
 
 
+@admin.register(Stock)
 class StockAdmin(ModelAdmin, ImportExportModelAdmin):
+    warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('product','quantity', 'warehouse')
     list_filter = (('product', ChoicesDropdownFilter),)
@@ -114,13 +138,4 @@ class StockAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
 
-
-admin.site.register(Currency, CurrencyAdmin)
-admin.site.register(Product, ProductAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Supplier, SupplierAdmin)
-admin.site.register(ProductSupplier, ProductSupplierAdmin)
-admin.site.register(ProductImage, ProductImageAdmin)
-admin.site.register(Warehouse, WarehouseAdmin)
-admin.site.register(Stock, StockAdmin)
 admin.site.register(Organization, ModelAdmin)
