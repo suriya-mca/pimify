@@ -2,9 +2,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
+
+from api.main import app
 
 urlpatterns = [
-    path("", admin.site.urls),
+    path('', lambda request: redirect('admin/', permanent=True)),
+    path('admin/', admin.site.urls),
+    path('api/v1/', app.urls),
 ]
 
 if settings.DEBUG:
