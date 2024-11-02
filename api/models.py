@@ -20,7 +20,7 @@ class Currency(models.Model):
         verbose_name_plural = 'Currencies'
 
     def __str__(self):
-        return self.id
+        return self.code
 
 
 class Product(models.Model):
@@ -46,7 +46,7 @@ class Product(models.Model):
         ] 
 
     def __str__(self):
-        return self.id                  
+        return self.sku                 
 
 
 class Category(models.Model):
@@ -63,7 +63,7 @@ class Category(models.Model):
         ]   
 
     def __str__(self):
-        return self.id              
+        return self.name             
 
 
 class Supplier(models.Model):
@@ -83,7 +83,7 @@ class Supplier(models.Model):
         ] 
 
     def __str__(self):
-        return self.id              
+        return self.name             
 
 
 class ProductSupplier(models.Model):
@@ -130,7 +130,7 @@ class Warehouse(models.Model):
         ]
 
     def __str__(self):
-        return self.id
+        return self.name
 
 
 class Stock(models.Model):
