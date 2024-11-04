@@ -20,9 +20,9 @@ class ORJSONRenderer(BaseRenderer):
  
         
 app = NinjaAPI(parser=ORJSONParser(), 
-               renderer=ORJSONRenderer(), 
-               docs_decorator=staff_member_required,
+               renderer=ORJSONRenderer(),
+            #    docs_decorator=staff_member_required,
                title="Pimify",
-               description="This is a demo API with dynamic OpenAPI info section",
+               description="Pimify: Open-Source Product Information Management",
                version="v1")
 app.add_router("public/", public_router)
