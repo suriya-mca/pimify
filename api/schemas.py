@@ -18,6 +18,13 @@ class CurrencySchema(Schema):
     code: str
     symbol: str
     
+    
+class ProductFilterSchema(Schema):
+    is_active: Optional[bool] = None
+    search: Optional[str] = None
+    min_price: Optional[float] = None
+    max_price: Optional[float] = None
+
 
 class ProductListSchema(Schema):
     id: str
