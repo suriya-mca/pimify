@@ -150,6 +150,25 @@ class Stock(models.Model):
         return self.id
 
 
+class APIKey(models.Model):
+    id = models.AutoField(primary_key=True)
+    key = models.CharField(max_length=100, unique=True, editable=False)
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'API Keys'
+        verbose_name_plural = 'API Keys'
+        indexes = [
+            models.Index(fields=['key'])
+        ]
+
+    def __str__(self):
+        return f"{self.name} - {self.key[:8]}..."
+
+
 class Organization(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
@@ -158,6 +177,7 @@ class Organization(models.Model):
     email = models.EmailField(blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     website = models.URLField(blank=True, null=True)
+    api_keys = models.ForeignKey(APIKey, on_delete=models.CASCADE, related_name='organization', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
