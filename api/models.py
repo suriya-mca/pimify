@@ -152,7 +152,7 @@ class Stock(models.Model):
 
 class APIKey(models.Model):
     id = models.AutoField(primary_key=True)
-    key = models.CharField(max_length=100, unique=True, editable=False)
+    api_key = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -162,11 +162,11 @@ class APIKey(models.Model):
         db_table = 'API Keys'
         verbose_name_plural = 'API Keys'
         indexes = [
-            models.Index(fields=['key'])
+            models.Index(fields=['api_key'])
         ]
 
     def __str__(self):
-        return f"{self.name} - {self.key[:8]}..."
+        return f"{self.name} - {self.api_key[:8]}..."
 
 
 class Organization(models.Model):

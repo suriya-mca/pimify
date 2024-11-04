@@ -5,6 +5,7 @@ from ninja.renderers import BaseRenderer
 from django.contrib.admin.views.decorators import staff_member_required
 
 from .public_routers import router as public_router
+from .private_routers import router as private_router
 
 
 class ORJSONParser(Parser):
@@ -21,8 +22,9 @@ class ORJSONRenderer(BaseRenderer):
         
 app = NinjaAPI(parser=ORJSONParser(), 
                renderer=ORJSONRenderer(),
-            #    docs_decorator=staff_member_required,
+               docs_decorator=staff_member_required,
                title="Pimify",
                description="Pimify: Open-Source Product Information Management",
                version="v1")
 app.add_router("public/", public_router)
+app.add_router("private/", private_router)

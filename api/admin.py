@@ -10,7 +10,7 @@ from unfold.contrib.filters.admin import FieldTextFilter, ChoicesDropdownFilter,
 from django.db import models
 from unfold.contrib.forms.widgets import WysiwygWidget
 
-from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization
+from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization, APIKey
 
 
 admin.site.unregister(User)
@@ -137,5 +137,13 @@ class StockAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
+
+
+@admin.register(APIKey)
+class APIKeyAdmin(ModelAdmin):
+    warn_unsaved_form = True
+    list_display = ('name', 'api_key', 'is_active', 'created_at', 'updated_at')
+    list_filter = (('name'), ('is_active'))
+    search_fields = ['name']
 
 admin.site.register(Organization, ModelAdmin)
