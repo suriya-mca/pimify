@@ -6,8 +6,8 @@ from ninja import Query
 from django.db.models import Q
 from ninja.security import django_auth
 
-from .schemas import SupplierListSchema, SupplierInfoSchema, WarehouseListSchema, WarehouseInfoSchema, StockDetailSchema
-from .models import Supplier, Warehouse, Stock
+from .schemas import SupplierListSchema, SupplierInfoSchema, WarehouseListSchema, WarehouseInfoSchema, StockDetailSchema, PprductSupplierDetails
+from .models import Supplier, Warehouse, Stock, ProductSupplier
 
 
 router = Router()
@@ -49,3 +49,11 @@ def list_stock_details(request):
 
     stocks = Stock.objects.all()
     return stocks
+
+
+@router.get("/product-supplier/", auth=django_auth, response={200: List[PprductSupplierDetails]}, tags=["Product <=> Supplier"])
+@paginate(PageNumberPagination, page_size=20)
+def list_product_supplier_details(request):
+
+    data = ProductSupplier.objects.all()
+    return data

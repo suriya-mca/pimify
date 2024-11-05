@@ -86,3 +86,12 @@ class StockDetailSchema(Schema):
     product: ProductListSchema
     quantity: int
     warehouse: WarehouseInfoSchema
+
+
+class PprductSupplierDetails(Schema):
+    id: str
+    product: ProductListSchema
+    supplier: SupplierInfoSchema
+    cost_price: float
+    lead_time: int
+    

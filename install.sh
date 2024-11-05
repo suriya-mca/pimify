@@ -26,8 +26,12 @@ pip install -r requirements.txt
 # Run migrations
 echo "Running migrations..."
 python manage.py migrate
-python manage.py makemigrations
+python manage.py makemigrations api
 python manage.py migrate
+
+# Collect static
+echo "Collect statis files..."
+python manage.py collectstatic
 
 # Create a superuser
 echo "Creating superuser. Please provide the details when prompted."
