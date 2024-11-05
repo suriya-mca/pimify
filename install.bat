@@ -25,6 +25,10 @@ python manage.py migrate
 python manage.py makemigrations api
 python manage.py migrate
 
+:: Collect static
+echo Collect statis files...
+python manage.py collectstatic
+
 :: Create superuser
 echo Creating superuser. Please provide the details when prompted.
 python manage.py createsuperuser
