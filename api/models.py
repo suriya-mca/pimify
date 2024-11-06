@@ -1,4 +1,8 @@
+import secrets
+import string
+import time
 from django.db import models
+from django.core.exceptions import ValidationError
 from fastnanoid import generate
 
 
@@ -150,9 +154,28 @@ class Stock(models.Model):
         return self.id
 
 
+def generate_secure_api_key(prefix='sk', size=32):
+    """
+    Generates a highly secure API key combining NanoID with additional entropy
+    Format: prefix_timestamp_nanoid_entropy
+    """
+    # Generate timestamp hex for uniqueness
+    timestamp = hex(int(time.time()))[2:]
+    
+    # Generate NanoID component
+    nano_component = generate(size=16)
+    
+    # Generate additional entropy using secrets
+    entropy_chars = string.ascii_letters + string.digits + '_-#@^!'
+    entropy = ''.join(secrets.choice(entropy_chars) for _ in range(16))
+    
+    # Combine all components
+    key = f"{prefix}_{timestamp}_{nano_component}_{entropy}"
+    return key
+
 class APIKey(models.Model):
     id = models.AutoField(primary_key=True)
-    api_key = models.CharField(max_length=100, unique=True)
+    api_key = models.CharField(max_length=100, unique=True, editable=False,)
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -164,9 +187,32 @@ class APIKey(models.Model):
         indexes = [
             models.Index(fields=['api_key'])
         ]
+    
+    def save(self, *args, **kwargs):
+        if not self.api_key:
+            while True:
+                generated_key = generate_secure_api_key()
+                if not APIKey.objects.filter(api_key=generated_key).exists():
+                    self.api_key = generated_key
+                    break
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        if not self.name:
+            raise ValidationError({'name': 'Name is required'})
 
     def __str__(self):
-        return f"{self.name} - {self.api_key[:8]}..."
+        return f"{self.name} - {self.api_key[:12]}..."
+
+    @classmethod
+    def create_key(cls, name):
+        """
+        Helper method to create a new API key
+        """
+        api_key = cls(name=name)
+        api_key.full_clean()
+        api_key.save()
+        return api_key
 
 
 class Organization(models.Model):
