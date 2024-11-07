@@ -18,6 +18,7 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     'import_export',
+    'image_uploader_widget',
 ]
 
 THIRD_PARTY_ADMIN_APPS = [
@@ -109,7 +110,7 @@ STATIC_URL = "static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR ,'static')
 
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, '/static_src')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_src')]
 
 MEDIA_URL = 'media/'
 
@@ -120,7 +121,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 UNFOLD = {
     "SITE_TITLE": "Pimify",
     "SITE_HEADER": "Pimify",
-    "SITE_SYMBOL": "speed",
+    "SITE_SYMBOL": "package",
+    "THEME": "dark",
     "COLORS": {
         "font": {
             "subtle-light": "107 114 128",
@@ -192,14 +194,8 @@ UNFOLD = {
                 "items": [
                     {
                         "title": _("Suppliers"),
-                        "icon": "corporate_fare", 
+                        "icon": "local_shipping", 
                         "link": reverse_lazy("admin:api_supplier_changelist"),
-                        "permission": lambda request: request.user.is_staff,
-                    },
-                    {
-                        "title": _("Product Suppliers"),
-                        "icon": "compare_arrows",  
-                        "link": reverse_lazy("admin:api_productsupplier_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                     {
@@ -212,6 +208,12 @@ UNFOLD = {
                         "title": _("Stocks"),
                         "icon": "inventory", 
                         "link": reverse_lazy("admin:api_stock_changelist"),
+                        "permission": lambda request: request.user.is_staff,
+                    },
+                    {
+                        "title": _("Product Suppliers"),
+                        "icon": "compare_arrows",  
+                        "link": reverse_lazy("admin:api_productsupplier_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                 ],
