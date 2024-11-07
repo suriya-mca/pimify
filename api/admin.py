@@ -9,6 +9,7 @@ from unfold.contrib.import_export.forms import ExportForm, ImportForm, Selectabl
 from unfold.contrib.filters.admin import FieldTextFilter, ChoicesDropdownFilter, RangeDateFilter
 from django.db import models
 from unfold.contrib.forms.widgets import WysiwygWidget
+from image_uploader_widget.widgets import ImageUploaderWidget
 
 from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization, APIKey
 
@@ -24,10 +25,15 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
 
+    def has_module_permission(self, request):
+        return False
+
 
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-    pass
+    
+    def has_module_permission(self, request):
+        return False
 
 
 @admin.register(Currency)
@@ -40,6 +46,9 @@ class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
+
+    def has_module_permission(self, request):
+        return False
 
 
 @admin.register(Product)
@@ -60,6 +69,9 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
         }
     }
 
+    def has_module_permission(self, request):
+        return False
+
 
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -72,6 +84,9 @@ class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
+
+    def has_module_permission(self, request):
+        return False
 
 
 @admin.register(Supplier)
@@ -86,6 +101,15 @@ class SupplierAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": WysiwygWidget,
+        }
+    }
+
+    def has_module_permission(self, request):
+        return False
+
 
 @admin.register(ProductSupplier)
 class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -98,6 +122,9 @@ class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
+
+    def has_module_permission(self, request):
+        return False
 
 
 @admin.register(ProductImage)
@@ -112,6 +139,13 @@ class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
 
+    formfield_overrides = {
+        models.ImageField: {'widget': ImageUploaderWidget},
+    }
+
+    def has_module_permission(self, request):
+        return False
+
 
 @admin.register(Warehouse)
 class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -125,6 +159,15 @@ class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
 
+    formfield_overrides = {
+        models.TextField: {
+            "widget": WysiwygWidget,
+        }
+    }
+
+    def has_module_permission(self, request):
+        return False
+
 
 @admin.register(Stock)
 class StockAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -137,6 +180,9 @@ class StockAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
+
+    def has_module_permission(self, request):
+        return False
 
 
 @admin.register(APIKey)
