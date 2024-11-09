@@ -21,6 +21,7 @@ admin.site.site_url = None
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin, ModelAdmin):
+    compressed_fields = True
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
@@ -31,13 +32,15 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
 
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
-    
+    compressed_fields = True
+
     def has_module_permission(self, request):
         return False
 
 
 @admin.register(Currency)
 class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_display = ('code','symbol')
     list_filter = ('code',)
@@ -53,6 +56,7 @@ class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('sku', 'name', 'price', 'currency', 'stock_quantity', 'is_active', 'created_at', 'updated_at')
@@ -75,6 +79,7 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('name', 'slug')
@@ -91,6 +96,7 @@ class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(Supplier)
 class SupplierAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('name','email', 'phone')
@@ -113,6 +119,7 @@ class SupplierAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(ProductSupplier)
 class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('product','supplier', 'cost_price', 'lead_time')
@@ -129,6 +136,7 @@ class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(ProductImage)
 class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('product','image')
@@ -149,6 +157,7 @@ class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(Warehouse)
 class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('name',)
@@ -171,6 +180,7 @@ class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(Stock)
 class StockAdmin(ModelAdmin, ImportExportModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
     list_display = ('product','quantity', 'warehouse')
@@ -187,9 +197,24 @@ class StockAdmin(ModelAdmin, ImportExportModelAdmin):
 
 @admin.register(APIKey)
 class APIKeyAdmin(ModelAdmin):
+    compressed_fields = True
     warn_unsaved_form = True
     list_display = ('name', 'api_key', 'is_active', 'created_at', 'updated_at')
     list_filter = (('name'), ('is_active'))
     search_fields = ['name']
 
-admin.site.register(Organization, ModelAdmin)
+# admin.site.register(Organization, ModelAdmin)
+
+@admin.register(Organization)
+class OrganizationAdmin(ModelAdmin):
+    compressed_fields = True
+    warn_unsaved_form = True
+    list_display = ('name', 'email', 'website', 'api_keys', 'created_at', 'updated_at')
+    list_filter = (('name'),)
+    search_fields = ['name']
+
+    formfield_overrides = {
+        models.TextField: {
+            "widget": WysiwygWidget,
+        }
+    }
