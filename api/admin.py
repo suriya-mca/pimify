@@ -10,14 +10,24 @@ from unfold.contrib.filters.admin import FieldTextFilter, ChoicesDropdownFilter,
 from django.db import models
 from unfold.contrib.forms.widgets import WysiwygWidget
 from image_uploader_widget.widgets import ImageUploaderWidget
+from login_history.models import LoginHistory
 
 from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization, APIKey
 
 
 admin.site.unregister(User)
 admin.site.unregister(Group)
+admin.site.unregister(LoginHistory)
 admin.site.site_url = None
 
+
+@admin.register(LoginHistory)
+class LoginHistoryAdmin(ModelAdmin, ImportExportModelAdmin):
+
+    list_display = ('user','date_time', 'ip', 'user_agent', 'is_logged_in')
+    import_form_class = ImportForm
+    export_form_class = ExportForm
+    export_form_class = SelectableFieldsExportForm
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin, ModelAdmin):
@@ -203,7 +213,6 @@ class APIKeyAdmin(ModelAdmin):
     list_filter = (('name'), ('is_active'))
     search_fields = ['name']
 
-# admin.site.register(Organization, ModelAdmin)
 
 @admin.register(Organization)
 class OrganizationAdmin(ModelAdmin):

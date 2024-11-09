@@ -19,6 +19,7 @@ LOCAL_APPS = [
 THIRD_PARTY_APPS = [
     'import_export',
     'image_uploader_widget',
+    'login_history',
 ]
 
 THIRD_PARTY_ADMIN_APPS = [
@@ -242,8 +243,8 @@ UNFOLD = {
                 "collapsible": False,
                 "items": [
                     {
-                        "title": _("Organization Details"),
-                        "icon": "source_environment", 
+                        "title": _("Organization"),
+                        "icon": "settings", 
                         "link": reverse_lazy("admin:api_organization_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
@@ -251,4 +252,30 @@ UNFOLD = {
             },
         ],
     },
+    "TABS": [
+        {
+            "models": [
+                "api.organization",
+                "api.apikey",
+                "login_history.loginhistory",
+            ],
+            "items": [
+                {
+                    "title": _("Organization Detals"),
+                    "link": reverse_lazy("admin:api_organization_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                },
+                {
+                    "title": _("API Keys"),
+                    "link": reverse_lazy("admin:api_apikey_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                },
+                {
+                    "title": _("Logs"),
+                    "link": reverse_lazy("admin:login_history_loginhistory_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                },
+            ],
+        },
+    ],
 }
