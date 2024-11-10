@@ -9,7 +9,7 @@ from fastnanoid import generate
 class NanoIDField(models.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = kwargs.get('max_length', 21) 
-        kwargs['default'] = generate(size=21)  
+        kwargs['default'] = lambda: generate(size=21)  
         kwargs['editable'] = False
         super().__init__(*args, **kwargs) 
 

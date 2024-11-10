@@ -4,7 +4,7 @@ from django.contrib.auth.admin import GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import User, Group
 from unfold.admin import ModelAdmin
 from unfold.forms import UserChangeForm, UserCreationForm, AdminPasswordChangeForm
-from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ImportExportModelAdmin, ExportMixin
 from unfold.contrib.import_export.forms import ExportForm, ImportForm, SelectableFieldsExportForm
 from unfold.contrib.filters.admin import FieldTextFilter, ChoicesDropdownFilter, RangeDateFilter
 from django.db import models
@@ -22,12 +22,13 @@ admin.site.site_url = None
 
 
 @admin.register(LoginHistory)
-class LoginHistoryAdmin(ModelAdmin, ImportExportModelAdmin):
+class LoginHistoryAdmin(ExportMixin, ModelAdmin):
 
     list_display = ('user','date_time', 'ip', 'user_agent', 'is_logged_in')
-    import_form_class = ImportForm
-    export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
+
+    def has_add_permission(self, request):
+        return False
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin, ModelAdmin):
