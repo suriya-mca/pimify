@@ -148,11 +148,10 @@ UNFOLD = {
         },
     },
     "SIDEBAR": {
-        "show_search": True,  
+        "show_search": False,  
         "show_all_applications": False, 
         "navigation": [
             {
-                "title": _("Product Management"),
                 "separator": False, 
                 "collapsible": False,
                 "items": [
@@ -162,6 +161,13 @@ UNFOLD = {
                         "link": reverse_lazy("admin:index"),
                         "permission": lambda request: request.user.is_staff,
                     },
+                ],
+            },
+            {
+                "title": _("Product Management"),
+                "separator": False, 
+                "collapsible": False,
+                "items": [
                     {
                         "title": _("Currencies"),
                         "icon": "money", 
@@ -219,26 +225,27 @@ UNFOLD = {
                     },
                 ],
             },
+            # {
+            #     "title": _("Authentication and Authorization"),
+            #     "separator": True,
+            #     "collapsible": False,
+            #     "items": [
+            #         {
+            #             "title": _("Users"),
+            #             "icon": "person", 
+            #             "link": reverse_lazy("admin:auth_user_changelist"),
+            #             "permission": lambda request: request.user.is_superuser,
+            #         },
+            #         {
+            #             "title": _("Groups"),
+            #             "icon": "group",
+            #             "link": reverse_lazy("admin:auth_group_changelist"),
+            #             "permission": lambda request: request.user.is_superuser,
+            #         },
+            #     ],
+            # },
             {
-                "title": _("Authentication and Authorization"),
-                "separator": True,
-                "collapsible": False,
-                "items": [
-                    {
-                        "title": _("Users"),
-                        "icon": "person", 
-                        "link": reverse_lazy("admin:auth_user_changelist"),
-                        "permission": lambda request: request.user.is_superuser,
-                    },
-                    {
-                        "title": _("Groups"),
-                        "icon": "group",
-                        "link": reverse_lazy("admin:auth_group_changelist"),
-                        "permission": lambda request: request.user.is_superuser,
-                    },
-                ],
-            },
-            {
+                "title": _("Settings"),
                 "separator": True,
                 "collapsible": False,
                 "items": [
@@ -248,7 +255,19 @@ UNFOLD = {
                         "link": reverse_lazy("admin:api_organization_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
-                ],
+                    {
+                        "title": _("Users and Permissions"),
+                        "icon": "manage_accounts", 
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                    {
+                        "title": _("Logs"),
+                        "icon": "monitoring", 
+                        "link": reverse_lazy("admin:login_history_loginhistory_changelist"),
+                        "permission": lambda request: request.user.is_superuser,
+                    },
+                ],  
             },
         ],
     },
@@ -257,11 +276,10 @@ UNFOLD = {
             "models": [
                 "api.organization",
                 "api.apikey",
-                "login_history.loginhistory",
             ],
             "items": [
                 {
-                    "title": _("Organization Detals"),
+                    "title": _("Organization Details"),
                     "link": reverse_lazy("admin:api_organization_changelist"),
                     "permission": lambda request: request.user.is_superuser,
                 },
@@ -270,9 +288,22 @@ UNFOLD = {
                     "link": reverse_lazy("admin:api_apikey_changelist"),
                     "permission": lambda request: request.user.is_superuser,
                 },
+            ],
+        },
+        {
+            "models": [
+                "auth.user",
+                "auth.group",
+            ],
+            "items": [
                 {
-                    "title": _("Logs"),
-                    "link": reverse_lazy("admin:login_history_loginhistory_changelist"),
+                    "title": _("Users"),
+                    "link": reverse_lazy("admin:auth_user_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                },
+                {
+                    "title": _("Groups"),
+                    "link": reverse_lazy("admin:auth_group_changelist"),
                     "permission": lambda request: request.user.is_superuser,
                 },
             ],
