@@ -4,5 +4,7 @@ data
 core/__pycache__
 api/__pycache__
 api/migrations
-static
+static/admin
+static/import_export
+static/unfold
 media
