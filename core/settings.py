@@ -74,15 +74,25 @@ WSGI_APPLICATION = "core.wsgi.application"
 ASGI_APPLICATION = "core.asgi.application"
 
 DATABASES = {
-    "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT"),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "data/db.sqlite3",
+        "OPTIONS": {
+            "init_command": "PRAGMA journal_mode=WAL;",
+            "init_command": "PRAGMA synchronous = NORMAL;",
+        },
     }
 }
+# DATABASES = {
+#     "default": {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         "NAME": config("DB_NAME"),
+#         "USER": config("DB_USER"),
+#         "PASSWORD": config("DB_PASSWORD"),
+#         "HOST": config("DB_HOST"),
+#         "PORT": config("DB_PORT"),
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {

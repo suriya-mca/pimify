@@ -12,7 +12,6 @@ You can set up the project quickly by running the installation script. Make sure
 Ensure the following is installed on your system:
 
 - **Python** (version 3.7 or higher)
-- **PostgreSQL** (make sure the PostgreSQL server is running and accessible)
 
 ### Clone the project
 
@@ -31,11 +30,6 @@ Ensure the following is installed on your system:
 ```bash
   SECRET_KEY = secret_key
   DEBUG = True
-  DB_NAME = db_name
-  DB_USER = postgres
-  DB_PASSWORD = password
-  DB_HOST = localhost
-  DB_PORT = 5432
 ```
 
 ### On Mac/Linux
