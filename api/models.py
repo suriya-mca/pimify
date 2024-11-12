@@ -1,8 +1,11 @@
+import os
 import secrets
 import string
 import time
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from fastnanoid import generate
 
 
@@ -119,6 +122,12 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.id
 
+@receiver(post_delete, sender=ProductImage)
+def delete_image_file(sender, instance, **kwargs):
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
 
 class Warehouse(models.Model):
     id = NanoIDField(primary_key=True)
@@ -149,6 +158,15 @@ class Stock(models.Model):
         indexes = [
             models.Index(fields=['id'])
         ]
+
+    def save(self, *args, **kwargs):
+        # Save the current stock record
+        super().save(*args, **kwargs)
+        
+        # Update the stock_quantity in the Product table
+        total_quantity = Stock.objects.filter(product=self.product).aggregate(total=models.Sum('quantity'))['total']
+        self.product.stock_quantity = total_quantity if total_quantity else 0
+        self.product.save()
 
     def __str__(self):
         return self.id
