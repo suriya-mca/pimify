@@ -56,7 +56,7 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -134,6 +134,10 @@ UNFOLD = {
     "SITE_HEADER": "Pimify",
     "SITE_SYMBOL": "package",
     "THEME": "dark",
+    "DASHBOARD_CALLBACK": "api.views.dashboard_callback",
+    "STYLES": [
+        lambda request: static("admin_dashboard/css/styles.css"),
+    ],
     "COLORS": {
         "font": {
             "subtle-light": "107 114 128",
@@ -158,7 +162,7 @@ UNFOLD = {
         },
     },
     "SIDEBAR": {
-        "show_search": False,  
+        "show_search": True,  
         "show_all_applications": False, 
         "navigation": [
             {

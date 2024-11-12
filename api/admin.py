@@ -37,16 +37,10 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
 
-    def has_module_permission(self, request):
-        return False
-
 
 @admin.register(Group)
 class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     compressed_fields = True
-
-    def has_module_permission(self, request):
-        return False
 
 
 @admin.register(Currency)
@@ -60,9 +54,6 @@ class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
-
-    def has_module_permission(self, request):
-        return False
 
 
 @admin.register(Product)
@@ -84,9 +75,6 @@ class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
         }
     }
 
-    def has_module_permission(self, request):
-        return False
-
 
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -100,9 +88,6 @@ class CategoryAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
-
-    def has_module_permission(self, request):
-        return False
 
 
 @admin.register(Supplier)
@@ -124,9 +109,6 @@ class SupplierAdmin(ModelAdmin, ImportExportModelAdmin):
         }
     }
 
-    def has_module_permission(self, request):
-        return False
-
 
 @admin.register(ProductSupplier)
 class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -140,9 +122,6 @@ class ProductSupplierAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
-
-    def has_module_permission(self, request):
-        return False
 
 
 @admin.register(ProductImage)
@@ -161,9 +140,6 @@ class ProductImageAdmin(ModelAdmin, ImportExportModelAdmin):
     formfield_overrides = {
         models.ImageField: {'widget': ImageUploaderWidget},
     }
-
-    def has_module_permission(self, request):
-        return False
 
 
 @admin.register(Warehouse)
@@ -185,9 +161,6 @@ class WarehouseAdmin(ModelAdmin, ImportExportModelAdmin):
         }
     }
 
-    def has_module_permission(self, request):
-        return False
-
 
 @admin.register(Stock)
 class StockAdmin(ModelAdmin, ImportExportModelAdmin):
@@ -201,9 +174,6 @@ class StockAdmin(ModelAdmin, ImportExportModelAdmin):
     import_form_class = ImportForm
     export_form_class = ExportForm
     export_form_class = SelectableFieldsExportForm
-
-    def has_module_permission(self, request):
-        return False
 
 
 @admin.register(APIKey)
