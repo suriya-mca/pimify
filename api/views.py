@@ -7,6 +7,11 @@ from django.utils import timezone
 def dashboard_callback(request, context):
     from .models import Product, Stock
 
+    # Navigation
+    context['navigation'] = [
+        {'title': 'API Docs', 'link': '/api/v1/docs', 'icon': 'link'},
+    ]
+
     # Get date ranges for metrics
     today = timezone.now()
     last_7_days = today - timedelta(days=7)
@@ -36,6 +41,22 @@ def dashboard_callback(request, context):
             'footer': 'Products need attention'
         }
     ]
+
+    # Chart data
+    daily_stats = Stock.objects.filter(
+        product__created_at__gte=last_7_days
+    ).values('product__created_at__date').annotate(
+        count=Count('id'),
+        value=Sum(F('quantity') * F('product__price'))
+    ).order_by('product__created_at__date')
+
+    context['chart'] = json.dumps({
+        'labels': [str(stat['product__created_at__date']) for stat in daily_stats],
+        'datasets': [{
+            'label': 'Stock Value',
+            'data': [float(stat['value'] or 0) for stat in daily_stats]
+        }]
+    })
 
     # Progress metrics
     category_distribution = Product.objects.values('categories__name').annotate(
