@@ -136,7 +136,7 @@ UNFOLD = {
     "THEME": "dark",
     "DASHBOARD_CALLBACK": "api.views.dashboard_callback",
     "STYLES": [
-        lambda request: static("admin_dashboard/css/styles.css"),
+        lambda request: static("dashboard/css/styles.css"),
     ],
     "COLORS": {
         "font": {

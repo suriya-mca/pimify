@@ -1,4 +1,6 @@
 # pimify
+![GitHub License](https://img.shields.io/github/license/suriya-mca/pimify) ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/suriya-mca/pimify) ![GitHub Repo stars](https://img.shields.io/github/stars/suriya-mca/pimify?style=flat&color=pink) ![GitHub forks](https://img.shields.io/github/forks/suriya-mca/pimify?style=flat&color=yellow) ![GitHub Release](https://img.shields.io/github/v/release/suriya-mca/pimify?color=green)
+
 Pimify is an open-source Product Information Management (PIM) platform
 
 ![image](https://github.com/user-attachments/assets/58157365-d1ea-4aa7-8556-a717c73861c4)
