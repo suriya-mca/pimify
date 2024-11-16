@@ -42,16 +42,6 @@
                     {% endfor %}
                 {% endcomponent %}
 
-                {# Main Chart #}
-                {% trans "Product Performance (Last 7 Days)" as title %}
-                {% component "unfold/components/card.html" with class="mb-8" title=title %}
-                    {# Insert the JSON data into the script element #}
-                    <script id="chart-data" type="application/json">
-                        {{ chart|safe }}
-                    </script>
-                    {% component "unfold/components/chart/line.html" with data=chart height=320 %}{% endcomponent %}
-                {% endcomponent %}
-
                 {# Bottom Section #}
                 {% component "unfold/components/flex.html" with class="gap-8 mb-8 flex-col lg:flex-row" %}
                     {# Left Side - Category Progress #}
@@ -68,7 +58,7 @@
 
             {# Right Sidebar - Recent Actions #}
             {% load i18n log %}
-            {% get_admin_log 10 as admin_log for_user user %}
+            {% get_admin_log 8 as admin_log for_user user %}
             {% if admin_log %}
                 <div id="content-related" class="lg:w-1/4">
                     <div id="recent-actions-module" class="module bg-gray-50 rounded-md p-3 dark:bg-gray-800">
@@ -106,65 +96,4 @@
 
         {% endcomponent %}
     {% endcomponent %}
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Select the chart element and retrieve JSON data
-            const chartDataElement = document.getElementById('chart-data');
-            const chartData = JSON.parse(chartDataElement.textContent);
-    
-            const ctx = document.querySelector(".chart").getContext('2d');
-    
-            // Create a darker gradient color for bars
-            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(200, 110, 30, 0.8)'); // Muted dark orange at the top
-            gradient.addColorStop(1, 'rgba(150, 80, 20, 0.8)');  // Even darker orange at the bottom
-    
-            const chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: chartData.labels,
-                    datasets: chartData.datasets.map(dataset => ({
-                        ...dataset,
-                        backgroundColor: gradient,      // Apply muted gradient color
-                        borderColor: 'rgba(150, 80, 20, 1)', // Darker border color
-                        borderRadius: 8,                // Rounded corners for bars
-                        hoverBackgroundColor: 'rgba(180, 100, 40, 0.9)', // Slightly lighter on hover
-                        borderWidth: 2
-                    }))
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(200, 200, 200, 0.2)', // Lighter grid lines
-                                borderDash: [5, 5]                // Dashed grid lines
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false                    // Hide vertical grid lines
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)', // Dark tooltip with opacity
-                            titleFont: { size: 14, weight: 'bold' },
-                            bodyFont: { size: 12 },
-                            padding: 10,
-                            cornerRadius: 4,
-                        }
-                    },
-                    animation: {
-                        duration: 800,                        // Smooth animation for loading
-                        easing: 'easeOutQuint'
-                    }
-                }
-            });
-        });
-    </script>
 {% endblock %}

@@ -37,8 +37,6 @@ python manage.py collectstatic
 echo "Creating superuser. Please provide the details when prompted."
 python manage.py createsuperuser
 
-echo "Installation complete! You can access the api docs at http://127.0.0.1:8000/api/v1/docs"
-
 # Start the development server
 echo "Starting the server..."
 python manage.py runserver
