@@ -6,6 +6,8 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 from fastnanoid import generate
 
 
@@ -20,27 +22,17 @@ class NanoIDField(models.CharField):
         super().__init__(*args, **kwargs) 
 
 
-class Currency(models.Model):
-    id = NanoIDField(primary_key=True)
-    code = models.CharField(max_length=3, unique=True)
-    symbol = models.CharField(max_length=1)
-
-    class Meta:
-        db_table = 'Currencies'
-        verbose_name_plural = 'Currencies'
-
-    def __str__(self):
-        return self.code
-
-
 class Product(models.Model):
     id = NanoIDField(primary_key=True)
     name = models.CharField(max_length=100)
     sku = models.CharField(max_length=150, unique=True)
     description = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    currency = models.ForeignKey(Currency, on_delete=models.SET_NULL, null=True)          
-    stock_quantity = models.IntegerField(default=0)
+    price = MoneyField(
+        max_digits=14, 
+        decimal_places=2, 
+        default_currency='USD'
+    )         
+    stock_quantity = models.IntegerField(default=0, editable=False)
     is_active = models.BooleanField(default=False)
     categories = models.ManyToManyField('Category', related_name='products')      
     created_at = models.DateTimeField(auto_now_add=True)
@@ -196,7 +188,7 @@ def generate_secure_api_key(prefix='sk', size=32):
 
 class APIKey(models.Model):
     id = models.AutoField(primary_key=True)
-    api_key = models.CharField(max_length=100, unique=True, editable=False,)
+    api_key = models.CharField(max_length=100, unique=True, editable=False)
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
