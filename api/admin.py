@@ -12,7 +12,7 @@ from unfold.contrib.forms.widgets import WysiwygWidget
 from image_uploader_widget.widgets import ImageUploaderWidget
 from login_history.models import LoginHistory
 
-from .models import Currency, Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization, APIKey
+from .models import Product, Category, Supplier, ProductSupplier, ProductImage, Warehouse, Stock, Organization, APIKey
 
 
 admin.site.unregister(User)
@@ -43,25 +43,12 @@ class GroupAdmin(BaseGroupAdmin, ModelAdmin):
     compressed_fields = True
 
 
-@admin.register(Currency)
-class CurrencyAdmin(ModelAdmin, ImportExportModelAdmin):
-    compressed_fields = True
-    warn_unsaved_form = True
-    list_display = ('code','symbol')
-    list_filter = ('code',)
-    search_fields = ['code']
-
-    import_form_class = ImportForm
-    export_form_class = ExportForm
-    export_form_class = SelectableFieldsExportForm
-
-
 @admin.register(Product)
 class ProductAdmin(ModelAdmin, ImportExportModelAdmin):
     compressed_fields = True
     warn_unsaved_form = True
     list_filter_submit = True
-    list_display = ('sku', 'name', 'price', 'currency', 'stock_quantity', 'is_active', 'created_at', 'updated_at')
+    list_display = ('sku', 'name', 'price', 'stock_quantity', 'is_active', 'created_at', 'updated_at')
     list_filter = (('name', ChoicesDropdownFilter), ('sku', FieldTextFilter), 'is_active', ('categories', ChoicesDropdownFilter), ('created_at', RangeDateFilter))
     search_fields = ['name', 'sku', 'categories']
 

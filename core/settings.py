@@ -20,6 +20,7 @@ THIRD_PARTY_APPS = [
     'import_export',
     'image_uploader_widget',
     'login_history',
+    'djmoney',
 ]
 
 THIRD_PARTY_ADMIN_APPS = [
@@ -182,12 +183,6 @@ UNFOLD = {
                 "separator": False, 
                 "collapsible": False,
                 "items": [
-                    {
-                        "title": _("Currencies"),
-                        "icon": "money", 
-                        "link": reverse_lazy("admin:api_currency_changelist"),
-                        "permission": lambda request: request.user.is_staff,
-                    },
                     {
                         "title": _("Categories"),
                         "icon": "category",  
