@@ -31,7 +31,7 @@ Ensure the following is installed on your system:
 
 ```bash
   SECRET_KEY = secret_key
-  DEBUG = True
+  DEBUG = False
 ```
 
 ### On Mac/Linux
