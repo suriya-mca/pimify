@@ -7,8 +7,8 @@ from django.shortcuts import redirect
 from api.main import app
 
 urlpatterns = [
-    path('', lambda request: redirect('admin/', permanent=True)),
-    path('admin/', admin.site.urls),
+    path('', lambda request: redirect('dashboard/', permanent=True)),
+    path('dashboard/', admin.site.urls),
     path('api/v1/', app.urls),
 ]
 

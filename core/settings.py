@@ -143,6 +143,16 @@ UNFOLD = {
     "SITE_SYMBOL": "package",
     "THEME": "dark",
     "DASHBOARD_CALLBACK": "api.views.dashboard_callback",
+     "SITE_ICON": {
+        "light": lambda request: static("img/favicon.ico"), 
+        "dark": lambda request: static("img/favicon.ico"),  
+    },
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "href": lambda request: static("img/favicon.ico"),
+        },
+    ],
     "STYLES": [
         lambda request: static("dashboard/css/styles.css"),
     ],
@@ -241,25 +251,6 @@ UNFOLD = {
                     },
                 ],
             },
-            # {
-            #     "title": _("Authentication and Authorization"),
-            #     "separator": True,
-            #     "collapsible": False,
-            #     "items": [
-            #         {
-            #             "title": _("Users"),
-            #             "icon": "person", 
-            #             "link": reverse_lazy("admin:auth_user_changelist"),
-            #             "permission": lambda request: request.user.is_superuser,
-            #         },
-            #         {
-            #             "title": _("Groups"),
-            #             "icon": "group",
-            #             "link": reverse_lazy("admin:auth_group_changelist"),
-            #             "permission": lambda request: request.user.is_superuser,
-            #         },
-            #     ],
-            # },
             {
                 "title": _("Settings"),
                 "separator": True,
