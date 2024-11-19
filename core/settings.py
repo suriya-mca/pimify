@@ -12,6 +12,8 @@ DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "*"]
 
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8000"]
+
 LOCAL_APPS = [
     'api',
 ]

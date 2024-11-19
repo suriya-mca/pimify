@@ -39,4 +39,4 @@ python manage.py createsuperuser
 
 # Start the development server
 echo "Starting the server..."
-gunicorn core.wsgi:application -c /script/gunicorn/gunicorn.conf.py
+gunicorn core.wsgi:application -c script/gunicorn/gunicorn.conf.py
