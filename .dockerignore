@@ -1,0 +1,11 @@
+.env.example
+.gitignore
+LICENSE
+README.md
+env
+data
+media
+static
+core/__pycache__
+api/__pycache__
+api/migrations

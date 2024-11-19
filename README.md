@@ -47,6 +47,35 @@ Ensure the following is installed on your system:
   ./install.bat
 ```
 
+## Docker Installation
+
+If you prefer to use Docker for a containerized setup, follow these steps:
+
+### Prerequisites
+
+Ensure the following is installed on your system:
+
+- **Docker**
+
+### Clone the project
+
+```bash
+  git clone https://github.com/suriya-mca/pimify.git
+```
+
+### Go to the project directory
+
+```bash
+  cd pimify
+```
+
+### Build and run the docker image
+
+```bash
+  docker build -t pimify:latest .
+  docker run -p 8000:8000 --name pimify-container pimify:latest
+```
+
 ## Contributing
 
 Contributions make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to contribute.
