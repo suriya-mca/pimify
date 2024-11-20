@@ -1,40 +1,66 @@
+# Standard library imports
 import os
 import secrets
 import string
 import time
-from django.db import models
+
+# Django imports
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
+
+# Third-party imports
 from djmoney.models.fields import MoneyField
-from djmoney.money import Money
 from fastnanoid import generate
 
-
+# Custom utility functions
 def generate_nanoid():
+    """Generate a unique NanoID string of length 21."""
     return generate(size=21)
 
+
+def generate_secure_api_key(prefix='sk', size=32):
+    """
+    Generate a highly secure API key combining NanoID with additional entropy.
+    
+    Args:
+        prefix (str): Prefix for the API key (default: 'sk')
+        size (int): Size of the NanoID component (default: 32)
+    
+    Returns:
+        str: Format: prefix_timestamp_nanoid_entropy
+    """
+    timestamp = hex(int(time.time()))[2:]
+    nano_component = generate(size=16)
+    entropy_chars = string.ascii_letters + string.digits + '_-#@^!'
+    entropy = ''.join(secrets.choice(entropy_chars) for _ in range(16))
+    return f"{prefix}_{timestamp}_{nano_component}_{entropy}"
+
+
+# Custom field types
 class NanoIDField(models.CharField):
+    """Custom field type that automatically generates a NanoID as the default value."""
     def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = kwargs.get('max_length', 21) 
+        kwargs['max_length'] = kwargs.get('max_length', 21)
         kwargs['default'] = generate_nanoid
         kwargs['editable'] = False
-        super().__init__(*args, **kwargs) 
+        super().__init__(*args, **kwargs)
 
 
+# Core models
 class Product(models.Model):
+    """
+    Represents a product in the inventory system with pricing, stock, and category information.
+    """
     id = NanoIDField(primary_key=True)
     name = models.CharField(max_length=100)
     sku = models.CharField(max_length=150, unique=True)
     description = models.TextField(blank=True, null=True)
-    price = MoneyField(
-        max_digits=14, 
-        decimal_places=2, 
-        default_currency='USD'
-    )         
+    price = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
     stock_quantity = models.IntegerField(default=0, editable=False)
     is_active = models.BooleanField(default=False)
-    categories = models.ManyToManyField('Category', related_name='products')      
+    categories = models.ManyToManyField('Category', related_name='products')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -45,13 +71,16 @@ class Product(models.Model):
             models.Index(fields=['id']),
             models.Index(fields=['name']),
             models.Index(fields=['sku']),
-        ] 
+        ]
 
     def __str__(self):
-        return self.sku                 
+        return self.sku
 
 
 class Category(models.Model):
+    """
+    Represents a product category for organizing products.
+    """
     id = NanoIDField(primary_key=True)
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -61,14 +90,17 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
         indexes = [
             models.Index(fields=['id']),
-            models.Index(fields=['name']),      
-        ]   
+            models.Index(fields=['name']),
+        ]
 
     def __str__(self):
-        return self.name             
+        return self.name
 
 
 class Supplier(models.Model):
+    """
+    Represents a supplier/vendor who provides products.
+    """
     id = NanoIDField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -78,17 +110,20 @@ class Supplier(models.Model):
     class Meta:
         db_table = 'Suppliers'
         verbose_name_plural = 'Suppliers'
-        
         indexes = [
             models.Index(fields=['id']),
-            models.Index(fields=['name']),          	
-        ] 
+            models.Index(fields=['name']),
+        ]
 
     def __str__(self):
-        return self.name             
+        return self.name
 
 
 class ProductSupplier(models.Model):
+    """
+    Represents the relationship between products and their suppliers,
+    including cost and lead time information.
+    """
     id = NanoIDField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='suppliers')
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
@@ -105,6 +140,9 @@ class ProductSupplier(models.Model):
 
 
 class ProductImage(models.Model):
+    """
+    Stores product images with associated metadata.
+    """
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='product_images/')
@@ -115,16 +153,20 @@ class ProductImage(models.Model):
         verbose_name_plural = 'Product Images'
 
     def __str__(self):
-        return self.id
+        return str(self.id)
+
 
 @receiver(post_delete, sender=ProductImage)
 def delete_image_file(sender, instance, **kwargs):
-    if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+    """Signal handler to clean up image files when a ProductImage instance is deleted."""
+    if instance.image and os.path.isfile(instance.image.path):
+        os.remove(instance.image.path)
 
 
 class Warehouse(models.Model):
+    """
+    Represents a physical warehouse location where products are stored.
+    """
     id = NanoIDField(primary_key=True)
     name = models.CharField(max_length=100)
     address = models.TextField()
@@ -134,7 +176,7 @@ class Warehouse(models.Model):
         verbose_name_plural = 'Warehouses'
         indexes = [
             models.Index(fields=['id']),
-            models.Index(fields=['name']),       
+            models.Index(fields=['name']),
         ]
 
     def __str__(self):
@@ -142,6 +184,9 @@ class Warehouse(models.Model):
 
 
 class Stock(models.Model):
+    """
+    Tracks product inventory levels across different warehouses.
+    """
     id = NanoIDField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
@@ -155,38 +200,24 @@ class Stock(models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        # Save the current stock record
+        """
+        Override save method to update the total stock quantity in the Product model
+        whenever stock levels change.
+        """
         super().save(*args, **kwargs)
-        
-        # Update the stock_quantity in the Product table
-        total_quantity = Stock.objects.filter(product=self.product).aggregate(total=models.Sum('quantity'))['total']
+        total_quantity = Stock.objects.filter(product=self.product).aggregate(
+            total=models.Sum('quantity'))['total']
         self.product.stock_quantity = total_quantity if total_quantity else 0
         self.product.save()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
-
-def generate_secure_api_key(prefix='sk', size=32):
-    """
-    Generates a highly secure API key combining NanoID with additional entropy
-    Format: prefix_timestamp_nanoid_entropy
-    """
-    # Generate timestamp hex for uniqueness
-    timestamp = hex(int(time.time()))[2:]
-    
-    # Generate NanoID component
-    nano_component = generate(size=16)
-    
-    # Generate additional entropy using secrets
-    entropy_chars = string.ascii_letters + string.digits + '_-#@^!'
-    entropy = ''.join(secrets.choice(entropy_chars) for _ in range(16))
-    
-    # Combine all components
-    key = f"{prefix}_{timestamp}_{nano_component}_{entropy}"
-    return key
 
 class APIKey(models.Model):
+    """
+    Manages API authentication keys for external access to the system.
+    """
     id = models.AutoField(primary_key=True)
     api_key = models.CharField(max_length=100, unique=True, editable=False)
     name = models.CharField(max_length=100)
@@ -200,8 +231,9 @@ class APIKey(models.Model):
         indexes = [
             models.Index(fields=['api_key'])
         ]
-    
+
     def save(self, *args, **kwargs):
+        """Generate a unique API key if one doesn't exist."""
         if not self.api_key:
             while True:
                 generated_key = generate_secure_api_key()
@@ -211,6 +243,7 @@ class APIKey(models.Model):
         super().save(*args, **kwargs)
 
     def clean(self):
+        """Ensure the API key has a name."""
         if not self.name:
             raise ValidationError({'name': 'Name is required'})
 
@@ -219,9 +252,7 @@ class APIKey(models.Model):
 
     @classmethod
     def create_key(cls, name):
-        """
-        Helper method to create a new API key
-        """
+        """Helper method to create a new API key."""
         api_key = cls(name=name)
         api_key.full_clean()
         api_key.save()
@@ -229,6 +260,9 @@ class APIKey(models.Model):
 
 
 class Organization(models.Model):
+    """
+    Stores organization details and their associated API keys.
+    """
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
@@ -243,6 +277,6 @@ class Organization(models.Model):
     class Meta:
         db_table = 'Organization Details'
         verbose_name_plural = 'Organization Details'
-        
+
     def __str__(self):
-        return self.id
+        return str(self.id)

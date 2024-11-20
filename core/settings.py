@@ -1,23 +1,28 @@
+# Import necessary modules
 from decouple import config
 from pathlib import Path, os
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.templatetags.static import static
 
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables
 SECRET_KEY = config("SECRET_KEY")
-
 DEBUG = config("DEBUG", cast=bool)
+DOMAIN = config("DOMAIN")
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', "*"]
+# Configure allowed hosts and CSRF settings
+ALLOWED_HOSTS = [DOMAIN, '127.0.0.1', 'localhost']
+CSRF_TRUSTED_ORIGINS = [DOMAIN, 'http://127.0.0.1', 'http://localhost']
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:8000"]
-
+# Define application categories
 LOCAL_APPS = [
     'api',
 ]
 
+# Third-party applications
 THIRD_PARTY_APPS = [
     'import_export',
     'image_uploader_widget',
@@ -25,6 +30,7 @@ THIRD_PARTY_APPS = [
     'djmoney',
 ]
 
+# Admin theme and related apps
 THIRD_PARTY_ADMIN_APPS = [
     'unfold',
     'unfold.contrib.filters',
@@ -32,6 +38,7 @@ THIRD_PARTY_ADMIN_APPS = [
     'unfold.contrib.import_export',
 ]
 
+# Combine all apps
 INSTALLED_APPS = [
     *THIRD_PARTY_ADMIN_APPS,
     "django.contrib.admin",
@@ -44,9 +51,10 @@ INSTALLED_APPS = [
     *LOCAL_APPS,
 ]
 
+# Middleware configuration
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # For serving static files
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -55,14 +63,17 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Static files storage configuration
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 
+# URL configuration
 ROOT_URLCONF = "core.urls"
 
+# Template configuration
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -79,31 +90,23 @@ TEMPLATES = [
     },
 ]
 
+# WSGI and ASGI configuration
 WSGI_APPLICATION = "core.wsgi.application"
-
 ASGI_APPLICATION = "core.asgi.application"
 
+# Database configuration using SQLite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / "data/db.sqlite3",
         "OPTIONS": {
-            "init_command": "PRAGMA journal_mode=WAL;",
-            "init_command": "PRAGMA synchronous = NORMAL;",
+            "init_command": "PRAGMA journal_mode=WAL;",  # Write-Ahead Logging
+            "init_command": "PRAGMA synchronous = NORMAL;",  # Optimize performance
         },
     }
 }
-# DATABASES = {
-#     "default": {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         "NAME": config("DB_NAME"),
-#         "USER": config("DB_USER"),
-#         "PASSWORD": config("DB_PASSWORD"),
-#         "HOST": config("DB_HOST"),
-#         "PORT": config("DB_PORT"),
-#     }
-# }
 
+# Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -119,33 +122,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization settings
 LANGUAGE_CODE = "en-us"
-
 TIME_ZONE = "UTC"
-
 USE_I18N = True
-
 USE_TZ = True
 
+# Static and media files configuration
 STATIC_URL = "static/"
-
 STATIC_ROOT = os.path.join(BASE_DIR ,'static')
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_src')]
-
 MEDIA_URL = 'media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Unfold admin theme configuration
 UNFOLD = {
+    # Basic site configuration
     "SITE_TITLE": "Pimify",
     "SITE_HEADER": "Pimify",
     "SITE_SYMBOL": "package",
     "THEME": "dark",
     "DASHBOARD_CALLBACK": "api.views.dashboard_callback",
-     "SITE_ICON": {
+    
+    # Site icons and styling
+    "SITE_ICON": {
         "light": lambda request: static("img/favicon.ico"), 
         "dark": lambda request: static("img/favicon.ico"),  
     },
@@ -158,6 +161,8 @@ UNFOLD = {
     "STYLES": [
         lambda request: static("dashboard/css/styles.css"),
     ],
+    
+    # Color configuration
     "COLORS": {
         "font": {
             "subtle-light": "107 114 128",
@@ -181,78 +186,84 @@ UNFOLD = {
             "950": "66 28 20"
         },
     },
+    
+    # Sidebar navigation configuration
     "SIDEBAR": {
-        "show_search": True,  
-        "show_all_applications": False, 
+        "show_search": True,
+        "show_all_applications": False,
         "navigation": [
+            # Dashboard section
             {
-                "separator": False, 
+                "separator": False,
                 "collapsible": False,
                 "items": [
                     {
                         "title": _("Dashboard"),
-                        "icon": "home", 
+                        "icon": "home",
                         "link": reverse_lazy("admin:index"),
                         "permission": lambda request: request.user.is_staff,
                     },
                 ],
             },
+            # Product management section
             {
                 "title": _("Product Management"),
-                "separator": False, 
+                "separator": False,
                 "collapsible": False,
                 "items": [
                     {
                         "title": _("Categories"),
-                        "icon": "category",  
+                        "icon": "category",
                         "link": reverse_lazy("admin:api_category_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                     {
                         "title": _("Products"),
-                        "icon": "box",  
+                        "icon": "box",
                         "link": reverse_lazy("admin:api_product_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
-                                        {
+                    {
                         "title": _("Product Images"),
-                        "icon": "image",  
+                        "icon": "image",
                         "link": reverse_lazy("admin:api_productimage_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                 ],
             },
+            # Stock management section
             {
                 "title": _("Stock Management"),
-                "separator": False, 
-                "collapsible": False, 
+                "separator": False,
+                "collapsible": False,
                 "items": [
                     {
                         "title": _("Suppliers"),
-                        "icon": "local_shipping", 
+                        "icon": "local_shipping",
                         "link": reverse_lazy("admin:api_supplier_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                     {
                         "title": _("Warehouses"),
-                        "icon": "warehouse",  
+                        "icon": "warehouse",
                         "link": reverse_lazy("admin:api_warehouse_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                     {
                         "title": _("Stocks"),
-                        "icon": "inventory", 
+                        "icon": "inventory",
                         "link": reverse_lazy("admin:api_stock_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                     {
                         "title": _("Product Suppliers"),
-                        "icon": "compare_arrows",  
+                        "icon": "compare_arrows",
                         "link": reverse_lazy("admin:api_productsupplier_changelist"),
                         "permission": lambda request: request.user.is_staff,
                     },
                 ],
             },
+            # Settings section
             {
                 "title": _("Settings"),
                 "separator": True,
@@ -260,27 +271,30 @@ UNFOLD = {
                 "items": [
                     {
                         "title": _("Organization"),
-                        "icon": "settings", 
+                        "icon": "settings",
                         "link": reverse_lazy("admin:api_organization_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Users and Permissions"),
-                        "icon": "manage_accounts", 
+                        "icon": "manage_accounts",
                         "link": reverse_lazy("admin:auth_user_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
                     {
                         "title": _("Logs"),
-                        "icon": "monitoring", 
+                        "icon": "monitoring",
                         "link": reverse_lazy("admin:login_history_loginhistory_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
-                ],  
+                ],
             },
         ],
     },
+    
+    # Tab configuration for different sections
     "TABS": [
+        # Organization and API settings tab
         {
             "models": [
                 "api.organization",
@@ -299,6 +313,7 @@ UNFOLD = {
                 },
             ],
         },
+        # User management tab
         {
             "models": [
                 "auth.user",

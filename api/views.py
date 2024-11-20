@@ -42,22 +42,6 @@ def dashboard_callback(request, context):
         }
     ]
 
-    # Chart data
-    daily_stats = Stock.objects.filter(
-        product__created_at__gte=last_7_days
-    ).values('product__created_at__date').annotate(
-        count=Count('id'),
-        value=Sum(F('quantity') * F('product__price'))
-    ).order_by('product__created_at__date')
-
-    context['chart'] = json.dumps({
-        'labels': [str(stat['product__created_at__date']) for stat in daily_stats],
-        'datasets': [{
-            'label': 'Stock Value',
-            'data': [float(stat['value'] or 0) for stat in daily_stats]
-        }]
-    })
-
     # Progress metrics
     category_distribution = Product.objects.values('categories__name').annotate(
         count=Count('id')
