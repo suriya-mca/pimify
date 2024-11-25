@@ -11,14 +11,15 @@ from ninja.pagination import paginate, PageNumberPagination
 from ninja.security import APIKeyHeader
 
 # Local imports
-from .models import Product, ProductImage, Category, APIKey
+from .models import Product, ProductImage, Category, APIKey, Organization
 from .schemas import (
     Message,
     ProductListSchema,
     ProductInfoSchema,
     ProductImageSchema,
     CategorySchema,
-    ProductFilterSchema
+    ProductFilterSchema,
+    OrganizationDetailSchema
 )
 
 # Initialize router
@@ -40,13 +41,22 @@ class ApiKey(APIKeyHeader):
 header_key = ApiKey()
 
 # Health check endpoint
-@router.get("/health", 
-            auth=header_key, 
+@router.get("/health",
             response={200: Message, 204: None}, 
             tags=["Product"])
 def health_check(request):
     """Simple health check endpoint to verify API status."""
     return 200, {'message': 'success'}
+
+@router.get("/organization", 
+            response=OrganizationDetailSchema, 
+            tags=["Organization"])
+def get_organization_details(request):
+    try:
+        organization = Organization.objects.get()
+        return organization
+    except Organization.DoesNotExist:
+        return {"error": "Organization details not found"}, 404
 
 # Product endpoints
 @router.get("/products/", 

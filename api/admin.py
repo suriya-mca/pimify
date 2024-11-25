@@ -233,3 +233,13 @@ class OrganizationAdmin(ModelAdmin):
     formfield_overrides = {
         models.TextField: {"widget": WysiwygWidget}
     }
+
+    def has_add_permission(self, request):
+        # Disallow adding if at least one Organization instance exists
+        if Organization.objects.exists():
+            return False
+        return super().has_add_permission(request)
+
+    def has_delete_permission(self, request, obj=None):
+        # Optionally disable delete permission to keep the single instance
+        return False

@@ -1,5 +1,5 @@
 # Python standard library imports
-from datetime import datetime
+from datetime import datetime, date
 from typing import List, Optional
 
 # Third-party imports
@@ -10,6 +10,16 @@ from pydantic import Field
 class Message(Schema):
     """Schema for simple message responses."""
     message: str
+
+
+class OrganizationDetailSchema(Schema):
+    id: int
+    name: str
+    description: Optional[str] = None
+    founded_date: Optional[date] = None
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+    website: Optional[str] = None
 
 
 # Product-related schemas
