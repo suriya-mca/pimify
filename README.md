@@ -5,7 +5,7 @@ Pimify is an open-source Product Information Management (PIM) platform
 
 ![image](https://github.com/user-attachments/assets/58157365-d1ea-4aa7-8556-a717c73861c4)
 
-## Quick Installation with Script
+## 	⚡ Quick Installation with Script
 
 You can set up the project quickly by running the installation script. Make sure you have the necessary permissions.
 
@@ -47,7 +47,7 @@ Ensure the following is installed on your system:
   ./install.bat
 ```
 
-## Docker Installation
+## 🐋 Docker Installation
 
 If you prefer to use Docker for a containerized setup, follow these steps:
 
