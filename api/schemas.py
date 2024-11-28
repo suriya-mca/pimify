@@ -11,6 +11,12 @@ class Message(Schema):
     """Schema for simple message responses."""
     message: str
 
+# Basic error schema
+class Error(Schema):
+    """Schema for simple error responses."""
+    error: str
+
+
 # Schema for organization details
 class OrganizationDetailSchema(Schema):
     id: int
@@ -129,3 +135,12 @@ class PprductSupplierDetails(Schema):
     supplier: SupplierInfoSchema
     cost_price: float
     lead_time: int
+
+
+class ExchangeRateResponseSchema(Schema):
+    """
+    Schema for exchange rate response deatils.
+    """
+    rate: float
+    from_currency: str
+    to_currency: str
