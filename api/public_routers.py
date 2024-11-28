@@ -48,14 +48,17 @@ def health_check(request):
     """Simple health check endpoint to verify API status."""
     return 200, {'message': 'success'}
 
-@router.get("/organization", 
-            response=OrganizationDetailSchema, 
+# Retrieve organization details endpoint
+@router.get("/organization",
+            response=OrganizationDetailSchema,
             tags=["Organization"])
 def get_organization_details(request):
     try:
+        # Get organization from database
         organization = Organization.objects.get()
         return organization
     except Organization.DoesNotExist:
+        # Handle case when no organization is found
         return {"error": "Organization details not found"}, 404
 
 # Product endpoints
