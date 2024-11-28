@@ -12,6 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool)
 DOMAIN = config("DOMAIN")
+OPEN_EXCHANGE_RATES_APP_ID = config("OPEN_EXCHANGE_RATES_APP_ID")
 
 # Configure allowed hosts and CSRF settings
 ALLOWED_HOSTS = [DOMAIN, '127.0.0.1', 'localhost']
@@ -28,6 +29,8 @@ THIRD_PARTY_APPS = [
     'image_uploader_widget',
     'login_history',
     'djmoney',
+    'djmoney.contrib.exchange',
+    'django_apscheduler',
 ]
 
 # Admin theme and related apps
@@ -50,6 +53,12 @@ INSTALLED_APPS = [
     *THIRD_PARTY_APPS,
     *LOCAL_APPS,
 ]
+
+# Django Money backend config
+DJANGO_MONEY_RATES = {
+    'DEFAULT_BACKEND': 'djmoney.contrib.exchange.backends.OpenExchangeRatesBackend',
+    'OPEN_EXCHANGE_RATES_URL': "https://openexchangerates.org/api/latest.json",
+}
 
 # Middleware configuration
 MIDDLEWARE = [
@@ -102,6 +111,7 @@ DATABASES = {
         "OPTIONS": {
             "init_command": "PRAGMA journal_mode=WAL;",  # Write-Ahead Logging
             "init_command": "PRAGMA synchronous = NORMAL;",  # Optimize performance
+            "timeout": 20,
         },
     }
 }

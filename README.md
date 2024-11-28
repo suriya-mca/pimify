@@ -32,6 +32,7 @@ Ensure the following is installed on your system:
 ```bash
   SECRET_KEY = secret_key
   DEBUG = False
+  DOMAIN = http://your-domain.com
 ```
 
 ### On Mac/Linux

@@ -11,7 +11,7 @@ class Message(Schema):
     """Schema for simple message responses."""
     message: str
 
-
+# Schema for organization details
 class OrganizationDetailSchema(Schema):
     id: int
     name: str

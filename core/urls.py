@@ -4,6 +4,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
+
+from api.management.commands import scheduler
 from api.main import app
 
 urlpatterns = [
@@ -16,6 +18,12 @@ urlpatterns = [
     # API endpoints (version 1)
     path('api/v1/', app.urls),
 ]
+
+# Only start the scheduler if the OPEN_EXCHANGE_RATES_APP_ID is set
+if getattr(settings, 'OPEN_EXCHANGE_RATES_APP_ID', None):
+    scheduler.start()
+else:
+    print("OPEN_EXCHANGE_RATES_APP_ID is not set. Scheduler will not start.")
 
 # Serve static and media files in development
 if settings.DEBUG:
