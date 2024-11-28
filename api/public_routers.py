@@ -10,16 +10,22 @@ from ninja import Router, Query
 from ninja.pagination import paginate, PageNumberPagination
 from ninja.security import APIKeyHeader
 
+# Djnago Money imports
+from djmoney.contrib.exchange.models import Rate
+from djmoney.contrib.exchange.models import convert_money
+
 # Local imports
 from .models import Product, ProductImage, Category, APIKey, Organization
 from .schemas import (
     Message,
+    Error,
     ProductListSchema,
     ProductInfoSchema,
     ProductImageSchema,
     CategorySchema,
     ProductFilterSchema,
-    OrganizationDetailSchema
+    OrganizationDetailSchema,
+    ExchangeRateResponseSchema
 )
 
 # Initialize router
@@ -48,18 +54,21 @@ def health_check(request):
     """Simple health check endpoint to verify API status."""
     return 200, {'message': 'success'}
 
+
 # Retrieve organization details endpoint
 @router.get("/organization",
-            response=OrganizationDetailSchema,
+            response={200: OrganizationDetailSchema, 404: Error},
             tags=["Organization"])
 def get_organization_details(request):
-    try:
-        # Get organization from database
-        organization = Organization.objects.get()
+    # Get organization from database
+    organization = Organization.objects.first()
+
+    if organization:
         return organization
-    except Organization.DoesNotExist:
-        # Handle case when no organization is found
-        return {"error": "Organization details not found"}, 404
+
+    # Handle case when no organization is found
+    return 404, {'error': 'Organization details not found'}
+
 
 # Product endpoints
 @router.get("/products/", 
@@ -120,6 +129,7 @@ def retrieve_product_images(request, id: str):
     images = ProductImage.objects.filter(product=product)
     return images
 
+
 # Category endpoints
 @router.get("/categories/", 
             auth=header_key, 
@@ -142,3 +152,24 @@ def list_products_by_category(request, category_id: str):
     category = get_object_or_404(Category, id=category_id)
     products = Product.objects.filter(categories=category)
     return products
+
+
+# Exchange rate endpoints
+@router.get("/exchange-rate/",
+            auth=header_key,
+            response={200: ExchangeRateResponseSchema, 404: Error},
+            tags=["Exchange Rate"])
+def get_exchange_rate_only(request, to_currency: str, from_currency: str = "USD"):
+    """
+    Endpoint to fetch the exchange rate between two currencies.
+    Default 'from_currency' is set to 'USD'.
+    """
+    rate = Rate.objects.filter(currency=to_currency).first()
+    
+    if rate:
+        return {
+            "rate": float(rate.value),
+            "from_currency": from_currency,
+            "to_currency": to_currency
+        }
+    return 404, {'error': f'Exchange rate for {to_currency} not found.'}
