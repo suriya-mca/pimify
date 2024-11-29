@@ -54,7 +54,16 @@ class ProductListSchema(Schema):
     sku: str
     description: Optional[str] = None
     price: float
+    currency: str
     is_active: bool
+
+    @staticmethod
+    def resolve_price(obj):
+        return float(obj.price.amount)
+    
+    @staticmethod
+    def resolve_currency(obj):
+        return str(obj.price.currency)
 
 
 class ProductInfoSchema(Schema):
@@ -67,11 +76,20 @@ class ProductInfoSchema(Schema):
     sku: str
     description: Optional[str] = None
     price: float
+    currency: str
     stock_quantity: int
     is_active: bool
     created_at: datetime
     updated_at: datetime
     images: Optional[List[ProductImageSchema]] = Field(default_factory=list)
+
+    @staticmethod
+    def resolve_price(obj):
+        return float(obj.price.amount)
+    
+    @staticmethod
+    def resolve_currency(obj):
+        return str(obj.price.currency)
 
 
 # Category schemas
@@ -144,3 +162,12 @@ class ExchangeRateResponseSchema(Schema):
     rate: float
     from_currency: str
     to_currency: str
+
+
+class ProductPriceResponseSchema(Schema):
+    """
+    Schema for converted product price rate response deatils.
+    """
+    product: str
+    price: str
+    
