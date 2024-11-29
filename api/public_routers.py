@@ -25,7 +25,8 @@ from .schemas import (
     CategorySchema,
     ProductFilterSchema,
     OrganizationDetailSchema,
-    ExchangeRateResponseSchema
+    ExchangeRateResponseSchema,
+    ProductPriceResponseSchema
 )
 
 # Initialize router
@@ -82,10 +83,9 @@ def list_products(request, filter_data: ProductFilterSchema = Query(...)):
     Supports filtering by active status, price range, and search term.
     """
     # Base query with active status filter
-    products = (Product.objects.prefetch_related('currency')
-               .filter(is_active=filter_data.is_active) 
+    products = (Product.objects.filter(is_active=filter_data.is_active) 
                if filter_data.is_active is not None 
-               else Product.objects.all().prefetch_related('currency'))
+               else Product.objects.all())
 
     # Search filter
     if filter_data.search:
@@ -173,3 +173,28 @@ def get_exchange_rate_only(request, to_currency: str, from_currency: str = "USD"
             "to_currency": to_currency
         }
     return 404, {'error': f'Exchange rate for {to_currency} not found.'}
+
+
+@router.get(
+    "/convert-product-price/",
+    response={200: ProductPriceResponseSchema, 400: Error},
+    tags=["Exchange Rate"]
+)
+def get_converted_product_price(request, product_sku: str, to_currency: str):
+    """
+    Endpoint to fetch product price in another currency.
+    """
+    # Fetch product or return 404 if not found
+    product = get_object_or_404(Product, sku=product_sku)
+
+    # Convert price
+    try:
+        converted_price = convert_money(product.price, to_currency)
+    except Exception as e:
+        return 400, {'error': f'Conversion failed: {str(e)}'}
+
+    # Return response
+    return {
+        "product": product.name,
+        "price": str(converted_price),
+    }
