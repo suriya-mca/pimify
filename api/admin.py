@@ -26,6 +26,7 @@ from unfold.contrib.forms.widgets import WysiwygWidget
 from import_export.admin import ImportExportModelAdmin, ExportMixin
 from image_uploader_widget.widgets import ImageUploaderWidget
 from login_history.models import LoginHistory
+from django_apscheduler.models import DjangoJob, DjangoJobExecution
 
 # Local imports
 from .models import (
@@ -44,6 +45,8 @@ from .models import (
 admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.unregister(LoginHistory)
+admin.site.unregister(DjangoJob)
+admin.site.unregister(DjangoJobExecution)
 admin.site.site_url = None
 
 
@@ -52,6 +55,21 @@ class LoginHistoryAdmin(ExportMixin, ModelAdmin):
     """Admin interface for login history tracking."""
     list_display = ('user', 'date_time', 'ip', 'user_agent', 'is_logged_in')
     export_form_class = SelectableFieldsExportForm
+
+    def has_add_permission(self, request):
+        """Prevent manual creation of login history records."""
+        return False
+
+
+@admin.register(DjangoJob)
+class DjangoJobAdmin(ExportMixin, ModelAdmin):
+    """Custom admin interface for Job Scheduler model with Unfold theme integration."""
+    compressed_fields = True
+
+@admin.register(DjangoJobExecution)
+class DjangoJobExecutionAdmin(ExportMixin, ModelAdmin):
+    """Custom admin interface for Job Execution model with Unfold theme integration."""
+    compressed_fields = True
 
     def has_add_permission(self, request):
         """Prevent manual creation of login history records."""
