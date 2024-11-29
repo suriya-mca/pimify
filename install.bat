@@ -29,11 +29,6 @@ python manage.py migrate
 echo Collect statis files...
 python manage.py collectstatic
 
-:: Create data and media folders
-echo Creating data and media folders...
-mkdir data
-mkdir media
-
 :: Create superuser
 echo Creating superuser. Please provide the details when prompted.
 python manage.py createsuperuser
