@@ -291,6 +291,12 @@ UNFOLD = {
                         "link": reverse_lazy("admin:auth_user_changelist"),
                         "permission": lambda request: request.user.is_superuser,
                     },
+                    # {
+                    #     "title": _("Scheduler"),
+                    #     "icon": "schedule",
+                    #     "link": reverse_lazy("admin:django_apscheduler_djangojobexecution_changelist"),
+                    #     "permission": lambda request: request.user.is_superuser,
+                    # },
                     {
                         "title": _("Logs"),
                         "icon": "monitoring",
@@ -309,6 +315,8 @@ UNFOLD = {
             "models": [
                 "api.organization",
                 "api.apikey",
+                "django_apscheduler.djangojobexecution",
+                "django_apscheduler.djangojob",
             ],
             "items": [
                 {
@@ -319,6 +327,16 @@ UNFOLD = {
                 {
                     "title": _("API Keys"),
                     "link": reverse_lazy("admin:api_apikey_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                },
+                {
+                    "title": _("Scheduled Jobs"),
+                    "link": reverse_lazy("admin:django_apscheduler_djangojob_changelist"),
+                    "permission": lambda request: request.user.is_superuser,
+                },
+                {
+                    "title": _("Job Executions"),
+                    "link": reverse_lazy("admin:django_apscheduler_djangojobexecution_changelist"),
                     "permission": lambda request: request.user.is_superuser,
                 },
             ],
