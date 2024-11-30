@@ -16,6 +16,9 @@ RUN chmod +x /app/script/docker/start.sh && \
     pip install --no-cache-dir --upgrade -r requirements.txt && \
     python manage.py migrate && \
     python manage.py makemigrations api && \
-    python manage.py migrate
+    python manage.py migrate && \
+    python manage.py collectstatic --noinput && \
+    rm -rf /root/.cache/pip && \
+    rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["sh", "-c", "./script/docker/start.sh"]
