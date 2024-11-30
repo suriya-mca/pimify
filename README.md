@@ -15,37 +15,32 @@ Ensure the following is installed on your system:
 
 - **Python** (version 3.7 or higher)
 
-### Clone the project
+### Clone the project & Go to the project directory
 
 ```bash
-  git clone https://github.com/suriya-mca/pimify.git
-```
-
-### Go to the project directory
-
-```bash
-  cd pimify
+git clone https://github.com/suriya-mca/pimify.git
+cd pimify
 ```
 
 ### Create .env file
 
 ```bash
-  SECRET_KEY = secret_key
-  DEBUG = False
-  DOMAIN = http://your-domain.com
+SECRET_KEY = secret_key
+DEBUG = False
+DOMAIN = http://your-domain.com
 ```
 
 ### On Mac/Linux
 
 ```bash
-  chmod +x install.sh
-  ./install.sh
+chmod +x install.sh
+./install.sh
 ```
 
 ### On Windows
 
 ```bash
-  ./install.bat
+./install.bat
 ```
 
 ## 🐋 Docker Installation
@@ -58,23 +53,26 @@ Ensure the following is installed on your system:
 
 - **Docker**
 
-### Clone the project
+### Clone the project & Go to the project directory
 
 ```bash
-  git clone https://github.com/suriya-mca/pimify.git
+git clone https://github.com/suriya-mca/pimify.git
+cd pimify
 ```
 
-### Go to the project directory
+### Create .env file
 
 ```bash
-  cd pimify
+SECRET_KEY = secret_key
+DEBUG = False
+DOMAIN = http://your-domain.com
 ```
 
 ### Build and run the docker image
 
 ```bash
-  docker build -t pimify:latest .
-  docker run -p 8000:8000 --name pimify-container pimify:latest
+docker build -t pimify:latest .
+docker run --env-file .env -p 8000:8000 --name pimify-container pimify:latest
 ```
 
 ## Contributing

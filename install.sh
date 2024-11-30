@@ -33,9 +33,8 @@ python manage.py migrate
 echo "Collect statis files..."
 python manage.py collectstatic
 
-# Create a superuser
-echo "Creating superuser. Please provide the details when prompted."
-python manage.py createsuperuser
+echo "Superuser created with username 'admin' and password 'admin123'"
+echo "**IMPORTANT:** Change the password immediately after logging in for the first time."
 
 # Start the development server
 echo "Starting the server..."
