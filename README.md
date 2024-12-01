@@ -25,9 +25,10 @@ cd pimify
 ### Create .env file
 
 ```bash
-SECRET_KEY = secret_key
-DEBUG = False
-DOMAIN = http://your-domain.com
+SECRET_KEY=secret_key
+DEBUG=False
+DOMAIN=http://your-domain.com
+OPEN_EXCHANGE_RATES_APP_ID=None
 ```
 
 ### On Mac/Linux
@@ -63,9 +64,10 @@ cd pimify
 ### Create .env file
 
 ```bash
-SECRET_KEY = secret_key
-DEBUG = False
-DOMAIN = http://your-domain.com
+SECRET_KEY=secret_key
+DEBUG=False
+DOMAIN=http://your-domain.com
+OPEN_EXCHANGE_RATES_APP_ID=None
 ```
 
 ### Build and run the docker image

@@ -15,6 +15,10 @@ python -m venv env
 echo Activating virtual environment...
 call env\Scripts\activate
 
+# Upgrade pip
+echo "Upgrading pip..."
+pip install --upgrade pip
+
 :: Install requirements
 echo Installing dependencies...
 pip install -r requirements.txt
