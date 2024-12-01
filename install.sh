@@ -19,6 +19,10 @@ python3 -m venv env
 echo "Activating virtual environment..."
 source env/bin/activate
 
+# Upgrade pip
+echo "Upgrading pip..."
+pip install --upgrade pip
+
 # Install requirements
 echo "Installing dependencies..."
 pip install -r requirements.txt
