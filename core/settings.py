@@ -62,6 +62,7 @@ DJANGO_MONEY_RATES = {
 
 # Middleware configuration
 MIDDLEWARE = [
+    "core.compressor.middleware.BrotliMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # For serving static files
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -101,7 +102,6 @@ TEMPLATES = [
 
 # WSGI and ASGI configuration
 WSGI_APPLICATION = "core.wsgi.application"
-ASGI_APPLICATION = "core.asgi.application"
 
 # Database configuration using SQLite
 DATABASES = {
