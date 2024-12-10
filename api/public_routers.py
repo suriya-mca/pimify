@@ -177,6 +177,7 @@ def get_exchange_rate_only(request, to_currency: str, from_currency: str = "USD"
 
 @router.get(
     "/convert-product-price/",
+    auth=header_key,
     response={200: ProductPriceResponseSchema, 400: Error},
     tags=["Exchange Rate"]
 )

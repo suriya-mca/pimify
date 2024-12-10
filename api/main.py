@@ -9,6 +9,7 @@ import orjson
 from ninja import NinjaAPI
 from ninja.parser import Parser
 from ninja.renderers import BaseRenderer
+from ninja.throttling import AnonRateThrottle, AuthRateThrottle
 
 # Local imports
 from .public_routers import router as public_router
@@ -61,6 +62,12 @@ app = NinjaAPI(
     # Use custom ORJSON parser and renderer for better performance
     parser=ORJSONParser(),
     renderer=ORJSONRenderer(),
+
+    # Throttling public and private endpoints
+    throttle=[
+        AnonRateThrottle('10/s'),
+        AuthRateThrottle('100/s'),
+    ],
     
     # Restrict API documentation access to staff members only
     docs_decorator=staff_member_required,
