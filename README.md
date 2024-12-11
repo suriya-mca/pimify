@@ -13,7 +13,7 @@ You can set up the project quickly by running the installation script. Make sure
 
 Ensure the following is installed on your system:
 
-- **Python** (version 3.7 or higher)
+- **Python** (version 3.10 or higher)
 
 ### Clone the project & Go to the project directory
 
@@ -75,6 +75,14 @@ OPEN_EXCHANGE_RATES_APP_ID=None
 ```bash
 docker build -t pimify:latest .
 docker run --env-file .env -p 8000:8000 --name pimify-container pimify:latest
+docker exec -it container-id sh
+```
+
+### Create superuser
+```bash
+docker exec -it container-id sh
+/app > source env/bin/activate # activate viruta environment
+/app > python manage.py createsuperuser # create superuser
 ```
 
 ## Contributing
