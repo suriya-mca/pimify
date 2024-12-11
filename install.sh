@@ -6,11 +6,6 @@ if ! command -v python3 &>/dev/null; then
     exit 1
 fi
 
-if ! command -v pip3 &>/dev/null; then
-    echo "pip3 is not installed. Please install it before proceeding."
-    exit 1
-fi
-
 # Create a virtual environment
 echo "Creating virtual environment..."
 python3 -m venv env
@@ -27,6 +22,13 @@ pip install --upgrade pip
 echo "Installing dependencies..."
 pip install -r requirements.txt
 
+# Create the 'data' and 'media' directory
+echo "Creating data and media directory"
+mkdir data
+mkdir media
+chmod +x data
+chmod +x media
+
 # Run migrations
 echo "Running migrations..."
 python manage.py migrate
@@ -37,8 +39,13 @@ python manage.py migrate
 echo "Collect statis files..."
 python manage.py collectstatic
 
-echo "Superuser created with username 'admin' and password 'admin123'"
-echo "**IMPORTANT:** Change the password immediately after logging in for the first time."
+# Start the scheduler
+echo "Starting scheduler..."
+python manage.py scheduler
+
+# Create Superuser
+echo "Creating superuser..."
+python manage.py createsuperuser
 
 # Start the development server
 echo "Starting the server..."

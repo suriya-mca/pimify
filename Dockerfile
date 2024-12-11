@@ -8,7 +8,6 @@ ENV PIP_NO_CACHE_DIR=1
 WORKDIR /app
 
 COPY . /app
-COPY ./data /data
 COPY ./script/gunicorn/gunicorn.conf.py /etc/gunicorn/gunicorn.conf.py
 
 RUN chmod +x /app/install.sh && \
