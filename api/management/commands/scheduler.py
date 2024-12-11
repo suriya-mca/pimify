@@ -4,9 +4,10 @@ from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
 from djmoney.contrib.exchange.backends import OpenExchangeRatesBackend
+from django.core.management.base import BaseCommand
 
 # Function to update exchange rates
-def sycn_exchange_rates():
+def sync_exchange_rates():
     try:
         backend = OpenExchangeRatesBackend()  # Initialize the exchange rates backend
         backend.update_rates()  # Update rates from OpenExchangeRates
@@ -26,7 +27,7 @@ def start():
 
     # Add a job to update exchange rates every hour
     scheduler.add_job(
-        sycn_exchange_rates,
+        sync_exchange_rates,
         'interval',
         hours=1,
         jobstore='default',
@@ -46,5 +47,14 @@ def start():
 
     try:
         scheduler.start()  # Start the scheduler
-    except KeyboardInterrupt:
-        scheduler.shutdown()  # Gracefully shut down the scheduler
+        print("Scheduler started successfully.")
+        sync_exchange_rates()  # Perform an initial sync of exchange rates
+    except Exception as e:
+        print(f"Failed to start scheduler: {e}")
+
+# Management command to run the scheduler
+class Command(BaseCommand):
+    help = "Runs the background scheduler for periodic tasks"
+
+    def handle(self, *args, **kwargs):
+        start()

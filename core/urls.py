@@ -19,11 +19,11 @@ urlpatterns = [
     path('api/v1/', app.urls),
 ]
 
-# Only start the scheduler if the OPEN_EXCHANGE_RATES_APP_ID is set
-if getattr(settings, 'OPEN_EXCHANGE_RATES_APP_ID', None):
-    scheduler.start()
-else:
-    print("OPEN_EXCHANGE_RATES_APP_ID is not set. Scheduler will not start.")
+# # Only start the scheduler if the OPEN_EXCHANGE_RATES_APP_ID is set
+# if getattr(settings, 'OPEN_EXCHANGE_RATES_APP_ID', None):
+#     scheduler.start()
+# else:
+#     print("OPEN_EXCHANGE_RATES_APP_ID is not set. Scheduler will not start.")
 
 # Serve static and media files in development
 if settings.DEBUG:

@@ -1,12 +1,15 @@
+.env
 .env.example
 .gitignore
 LICENSE
-README.md
-.env
+README.
+CONTRIBUTING.md
 env
+data
 media
 static
 core/__pycache__
+core/compressor/__pycache__
 api/__pycache__
 api/migrations
 api/management/commands/__pycache__
