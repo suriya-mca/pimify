@@ -75,7 +75,6 @@ OPEN_EXCHANGE_RATES_APP_ID=None
 ```bash
 docker build -t pimify:latest .
 docker run --env-file .env -p 8000:8000 --name pimify-container pimify:latest
-docker exec -it container-id sh
 ```
 
 ### Create superuser
