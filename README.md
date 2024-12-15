@@ -84,6 +84,29 @@ docker exec -it container-id sh
 /app > python manage.py createsuperuser # create superuser
 ```
 
+## 📂 Important Folders
+
+Pimify relies on three main folders for data storage and management. Make sure these folders are properly configured in your environment:
+
+1. **`data/`**: 
+   - Stores the actual database file.
+
+2. **`backups/`**: 
+   - Contains database backups (last 3 months by default).
+   - You can update this setting in the `scheduler.py` file if you want to adjust the backup retention period.
+
+3. **`media/`**: 
+   - Stores image and video files.
+
+Ensure these folders are persisted properly when running Pimify in a containerized or production environment.
+
+## 🚀 Getting Started
+
+Once the server starts, you can access the following URLs:
+
+- **Dashboard**: [http://127.0.0.1:8000/dashboard/](http://127.0.0.1:8000/dashboard/)
+- **API Documentation**: [http://127.0.0.1:8000/api/v1/docs](http://127.0.0.1:8000/api/v1/docs)
+
 ## Contributing
 
 Contributions make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to contribute.
