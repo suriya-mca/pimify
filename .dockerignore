@@ -6,6 +6,7 @@ README.
 CONTRIBUTING.md
 env
 data
+backups
 media
 static
 core/__pycache__

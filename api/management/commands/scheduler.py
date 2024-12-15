@@ -1,5 +1,6 @@
 # Import necessary modules
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
@@ -14,6 +15,14 @@ def sync_exchange_rates():
         print("Exchange rates updated successfully.")
     except Exception as e:
         print(f"Failed to update exchange rates: {e}")
+
+# Function to backup db
+def backup_db_every_month():
+    try:
+        call_command('dbbackup', clean=True)
+        print("Database backed up successfully.")
+    except Exception as e:
+        print(f"An error occurred during database backup: {e}")
 
 # Function to delete old job executions
 @util.close_old_connections  # Ensures database connections are closed properly
@@ -32,6 +41,15 @@ def start():
         hours=1,
         jobstore='default',
         id="update_exchange_rates",
+        replace_existing=True,
+    )
+
+    # Add a job to backup db every month
+    scheduler.add_job(
+        backup_db_every_month,
+        trigger=CronTrigger(day='last', hour=23, minute=59),  # Run on the last day of every month at 11:59 PM
+        jobstore='default',
+        id="db_backup",
         replace_existing=True,
     )
 

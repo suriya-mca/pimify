@@ -7,5 +7,6 @@ api/migrations
 api/management/commands/__pycache__
 script/gunicorn/__pycache__
 data
+backups
 media
 static

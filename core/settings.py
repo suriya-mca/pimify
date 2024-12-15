@@ -1,6 +1,6 @@
 # Import necessary modules
 from decouple import config
-from pathlib import Path, os
+from pathlib import Path
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 from django.templatetags.static import static
@@ -81,6 +81,7 @@ THIRD_PARTY_APPS = [
     'djmoney',
     'djmoney.contrib.exchange',
     'django_apscheduler',
+    'dbbackup',
 ]
 
 # Admin theme and related apps
@@ -190,10 +191,17 @@ USE_TZ = True
 
 # Static and media files configuration
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR ,'static')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static_src')]
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [BASE_DIR / 'static_src']
 MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Backup settings
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backups'}
+DBBACKUP_TMP_FILE_MAX_SIZE = 10*1024*1024
+DBBACKUP_CLEANUP_KEEP = 3
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
