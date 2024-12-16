@@ -2,7 +2,7 @@
 .env.example
 .gitignore
 LICENSE
-README.
+README.md
 CONTRIBUTING.md
 env
 data
@@ -15,3 +15,5 @@ api/__pycache__
 api/migrations
 api/management/commands/__pycache__
 script/gunicorn/__pycache__
+install.sh
+install.bat
