@@ -80,7 +80,6 @@ docker run --env-file .env -p 8000:8000 --name pimify-container pimify:latest
 ### Create superuser
 ```bash
 docker exec -it container-id sh
-/app > source env/bin/activate # activate viruta environment
 /app > python manage.py createsuperuser # create superuser
 ```
 
