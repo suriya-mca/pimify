@@ -52,7 +52,7 @@ def dashboard_callback(request, context):
             'title': cat['categories__name'],
             'description': f"{cat['count']} products",
             'value': int((cat['count'] / total_products) * 100)
-        } for cat in category_distribution[:3]
+        } for cat in category_distribution[:8]
     ]
 
     return context
