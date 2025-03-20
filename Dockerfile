@@ -24,7 +24,7 @@ RUN mkdir -p /app/data /app/backups /app/media && \
 USER appuser
 
 # Install dependencies and make install script executable
-RUN chmod +x /app/install.oci.sh
+RUN chmod +x /app/script/start/install.oci.sh
 
 # Set entrypoint
-CMD ["sh", "install.oci.sh"]
+CMD ["sh", "script/start/install.oci.sh"]

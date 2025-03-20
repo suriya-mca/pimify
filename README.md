@@ -34,14 +34,14 @@ OPEN_EXCHANGE_RATES_APP_ID=None
 ### On Mac/Linux
 
 ```bash
-chmod +x install.sh
-./install.sh
+chmod +x script/start/install.sh
+script/start/install.sh
 ```
 
 ### On Windows
 
 ```bash
-./install.bat
+script/start/install.bat
 ```
 
 ## 🐋 Docker Installation
