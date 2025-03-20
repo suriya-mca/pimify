@@ -25,9 +25,7 @@ pip install -r requirements.txt
 
 :: Create the 'data' and 'media' directory
 echo "Creating data, backup and media directory"
-mkdir data
-mkdir backups
-mkdir media
+mkdir data backups media
 
 :: Run migrations
 echo Running migrations...
