@@ -3,7 +3,7 @@
 
 Pimify is an open-source Product Information Management (PIM) platform
 
-![image](https://github.com/user-attachments/assets/58157365-d1ea-4aa7-8556-a717c73861c4)
+![edfc4784-dcb8-4995-93b8-9a9f7c64eb62](https://github.com/user-attachments/assets/5e480ae4-10a8-442a-96bb-daa882974855)
 
 ## 	⚡Quick Installation with Script
 
@@ -80,7 +80,6 @@ docker run --env-file .env -p 8000:8000 --name pimify-container pimify:latest
 ### Create superuser
 ```bash
 docker exec -it container-id sh
-/app > source env/bin/activate # activate viruta environment
 /app > python manage.py createsuperuser # create superuser
 ```
 
