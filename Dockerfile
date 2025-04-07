@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.12.9-alpine
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1 \
@@ -13,10 +13,11 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 # Set working directory and copy files
 WORKDIR /app
 COPY . /app
-COPY ./script/gunicorn/gunicorn.conf.py /etc/gunicorn/gunicorn.conf.py
 
 # Set permissions for the app directory and required folders
-RUN mkdir -p /app/data /app/backups /app/media && \
+RUN mkdir -p /etc/gunicorn && \
+    mv /app/script/gunicorn/gunicorn.conf.py /etc/gunicorn/gunicorn.conf.py && \
+    mkdir -p /app/data /app/backups /app/media && \
     chown -R appuser:appgroup /app /etc/gunicorn && \
     chmod -R 755 /app/data /app/backups /app/media
 
@@ -27,4 +28,4 @@ USER appuser
 RUN chmod +x /app/script/start/install.oci.sh
 
 # Set entrypoint
-CMD ["sh", "script/start/install.oci.sh"]
+ENTRYPOINT ["sh", "script/start/install.oci.sh"]
