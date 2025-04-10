@@ -2,6 +2,7 @@ env
 .env
 core/__pycache__
 core/compressor/__pycache__
+core/settings/__pycache__
 api/__pycache__
 api/migrations
 api/management/commands/__pycache__
