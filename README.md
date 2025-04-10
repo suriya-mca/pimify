@@ -1,9 +1,10 @@
-# pimify
+![alt text](image.png)
+
 ![GitHub License](https://img.shields.io/github/license/suriya-mca/pimify) ![GitHub commit activity](https://img.shields.io/github/commit-activity/t/suriya-mca/pimify) ![GitHub Repo stars](https://img.shields.io/github/stars/suriya-mca/pimify?style=flat&color=pink) ![GitHub forks](https://img.shields.io/github/forks/suriya-mca/pimify?style=flat&color=yellow) ![GitHub Release](https://img.shields.io/github/v/release/suriya-mca/pimify?color=green)
 
 Pimify is an open-source Product Information Management (PIM) platform
 
-![edfc4784-dcb8-4995-93b8-9a9f7c64eb62](https://github.com/user-attachments/assets/5e480ae4-10a8-442a-96bb-daa882974855)
+<!-- ![edfc4784-dcb8-4995-93b8-9a9f7c64eb62](https://github.com/user-attachments/assets/5e480ae4-10a8-442a-96bb-daa882974855) -->
 
 ## 	⚡Quick Installation with Script
 
@@ -25,8 +26,15 @@ cd pimify
 ### Create .env file
 
 ```bash
-SECRET_KEY=secret_key
-DEBUG=False
+# [Core Settings]
+SECRET_KEY=secret_key # Generate strong key for production
+
+# Runtime Mode: 
+# - development = Development settings (DEBUG=True, verbose errors)
+# - production = Production settings (DEBUG=False, security hardened)
+MODE=development
+
+# [Deployment Settings]
 DOMAIN=http://your-domain.com
 OPEN_EXCHANGE_RATES_APP_ID=None
 ```
@@ -64,8 +72,15 @@ cd pimify
 ### Create .env file
 
 ```bash
-SECRET_KEY=secret_key
-DEBUG=False
+# [Core Settings]
+SECRET_KEY=secret_key # Generate strong key for production
+
+# Runtime Mode: 
+# - development = Development settings (DEBUG=True, verbose errors)
+# - production = Production settings (DEBUG=False, security hardened)
+MODE=development
+
+# [Deployment Settings]
 DOMAIN=http://your-domain.com
 OPEN_EXCHANGE_RATES_APP_ID=None
 ```
@@ -106,7 +121,7 @@ Once the server starts, you can access the following URLs:
 - **Dashboard**: [http://127.0.0.1:8000/dashboard/](http://127.0.0.1:8000/dashboard/)
 - **API Documentation**: [http://127.0.0.1:8000/api/v1/docs](http://127.0.0.1:8000/api/v1/docs)
 
-## Contributing
+## 🤝 Contributing
 
 Contributions make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. See [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to contribute.
 
@@ -118,6 +133,6 @@ Contributions make the open-source community such an amazing place to learn, ins
 6. Push to the Branch (`git push origin feature/AmazingFeature`)
 7. Open a Pull Request
 
-## License
+## 📜 License
 
 Distributed under the Apache License. See `LICENSE.txt` for more information.
