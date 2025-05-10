@@ -24,6 +24,14 @@ def backup_db_every_month():
     except Exception as e:
         print(f"An error occurred during database backup: {e}")
 
+# Funtion to backup media
+def backup_media_every_month():
+    try:
+        call_command('mediabackup', clean=True)
+        print("Media files backed up successfully.")
+    except Exception as e:
+        print(f"An error occurred during media backup: {e}")
+
 # Function to delete old job executions
 @util.close_old_connections  # Ensures database connections are closed properly
 def delete_old_job_executions(max_age=7):
@@ -50,6 +58,15 @@ def start():
         trigger=CronTrigger(day='last', hour=23, minute=59),  # Run on the last day of every month at 11:59 PM
         jobstore='default',
         id="db_backup",
+        replace_existing=True,
+    )
+
+    # Add a job to backup media files every month
+    scheduler.add_job(
+        backup_media_every_month,
+        trigger=CronTrigger(day='last', hour=23, minute=45),  # 15 mins before DB backup
+        jobstore='default',
+        id="media_backup",
         replace_existing=True,
     )
 
