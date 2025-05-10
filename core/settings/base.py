@@ -135,11 +135,19 @@ MEDIA_ROOT = BASE_DIR / '../media'
 # STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 # Backup settings
+def db_backup_filename(databasename, servername, datetime, extension, content_type):
+    return f"db/{datetime}.{extension}"
+
+def media_backup_filename(databasename, servername, datetime, extension, content_type):
+    return f"media/{datetime}.{extension}"
+
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / '../backups'}
 DBBACKUP_TMP_FILE_MAX_SIZE = 10*1024*1024
 DBBACKUP_CLEANUP_KEEP = 3
-
+DBBACKUP_CLEANUP_KEEP_MEDIA = 3
+DBBACKUP_FILENAME_TEMPLATE = db_backup_filename
+DBBACKUP_MEDIA_FILENAME_TEMPLATE = media_backup_filename
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
