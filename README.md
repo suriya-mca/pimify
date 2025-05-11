@@ -36,7 +36,8 @@ MODE=development
 
 # [Deployment Settings]
 DOMAIN=http://your-domain.com
-OPEN_EXCHANGE_RATES_APP_ID=None
+# Get your App ID from: https://openexchangerates.org/
+OPEN_EXCHANGE_RATES_APP_ID=None # Required to fetch exchange rates. Set your actual App ID here
 ```
 
 ### On Mac/Linux
@@ -82,7 +83,8 @@ MODE=development
 
 # [Deployment Settings]
 DOMAIN=http://your-domain.com
-OPEN_EXCHANGE_RATES_APP_ID=None
+# Get your App ID from: https://openexchangerates.org/
+OPEN_EXCHANGE_RATES_APP_ID=None # Required to fetch exchange rates. Set your actual App ID here
 ```
 
 ### Build and run the docker image
