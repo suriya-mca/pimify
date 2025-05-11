@@ -136,10 +136,10 @@ MEDIA_ROOT = BASE_DIR / '../media'
 
 # Backup settings
 def db_backup_filename(databasename, servername, datetime, extension, content_type):
-    return f"db/{datetime}.{extension}"
+    return f"db_{datetime}.{extension}"
 
 def media_backup_filename(databasename, servername, datetime, extension, content_type):
-    return f"media/{datetime}.{extension}"
+    return f"media_{datetime}.{extension}"
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / '../backups'}
