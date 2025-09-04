@@ -6,7 +6,7 @@ Brotli==1.1.0
 certifi==2024.8.30
 diff-match-patch==20241021
 dj-user-login-history==1.0.6
-Django==5.1.9
+Django==5.1.10
 django-apscheduler==0.7.0
 django-dbbackup==4.2.1
 django-image-uploader-widget==1.0.0
@@ -31,4 +31,5 @@ tablib==3.7.0
 typing_extensions==4.12.2
 tzdata==2024.2
 tzlocal==5.2
+
 whitenoise==6.8.2
