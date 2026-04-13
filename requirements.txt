@@ -20,7 +20,7 @@ gunicorn==23.0.0
 idna==3.10
 orjson==3.11.7
 packaging==24.2
-pillow==12.1.1
+pillow==12.2.0
 py-moneyed==3.0
 pydantic==2.9.2
 pydantic_core==2.23.4
